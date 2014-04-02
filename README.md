@@ -8,10 +8,10 @@ A collection of snippets and tools for [Jekyll] in [Atom]
 
 Jekyll-Atom has a couple of settings that can be set through the [Atom] settings.
 
-`Layouts Dir` - The path to your layouts, defaults to `_layouts/`
-`Layouts Type` - The file type of your layouts, defaults to `.html`
-`Posts Dir` - The path to your posts, defaults to `_posts/`
-`Posts Type` - The file type of your posts, defaults to `.markdown`
+`Layouts Dir` The path to your layouts, defaults to `_layouts/`
+`Layouts Type` The file type of your layouts, defaults to `.html`
+`Posts Dir` The path to your posts, defaults to `_posts/`
+`Posts Type` The file type of your posts, defaults to `.markdown`
 
 # Usage
 
@@ -31,8 +31,8 @@ Opens `_config.yml`
 
 ## Keyboard Shortcuts
 
-`Cmd-Alt-L` - Open the layout for the current file
-`Cmd-Alt-J` - Create a new post
+`Cmd-Alt-L` Open the layout for the current file
+`Cmd-Alt-J` Create a new post
 
 ## Snippets
 
@@ -48,3 +48,6 @@ When you fork Jekyll-Atom please:
 2. Commit your changes (`git commit -am 'Add some feature'`)
 3. Push to the branch (`git push origin my-new-feature`)
 4. Create new Pull Request
+
+[Jekyll]: http://jekyllrb.com
+[Atom]: https://atom.io
