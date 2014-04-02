@@ -4,8 +4,9 @@
     body: """---
                 layout: ${1:post}
                 title: $2
-                categories: $3
-                comments: ${6:true}
+                date: $3
+                categories: $4
+                comments: ${5:true}
                 ---
                 $0"""
 
