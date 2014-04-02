@@ -25,6 +25,10 @@ When triggered this function looks through your file for `layout: foo` and then 
 
 When triggered this function brings up a popup at the top of the screen for you to type in the title of your new post e.g. `Something Really Cool!` (on the date 2/4/2014). When you submit the form a new file of `POSTSDIR/2014-04-02-something-really-cool.POST_FORMAT` will be created with a very basic front matter and opened on the screen.
 
+### Open Config
+
+Opens `_config.yml`
+
 ## Keyboard Shortcuts
 
 `Cmd-Alt-L` - Open the layout for the current file
