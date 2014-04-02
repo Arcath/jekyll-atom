@@ -1,0 +1,19 @@
+{
+  "name": "jekyll",
+  "main": "./lib/jekyll",
+  "version": "0.0.0",
+  "description": "A collection of snippets and tools for Jekyll",
+  "activationEvents": [
+    "jekyll:open-layout",
+    "jekyll:new-post",
+    "jekyll:open-config"
+  ],
+  "repository": "https://github.com/arcath/jekyll-atom",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+    "fs-plus": "^2.0.4"
+  }
+}

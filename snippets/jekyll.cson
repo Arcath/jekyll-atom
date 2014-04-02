@@ -1,0 +1,96 @@
+".source.gfm, .text.html":
+  "Front Matter":
+    prefix: "jfm"
+    body: """---
+                layout: ${1:post}
+                title: $2
+                categories: $3
+                comments: ${6:true}
+                ---
+                $0"""
+
+  "Assign":
+    prefix: "jas"
+    body: "{% assign $1 = $2 %}$0"
+
+  "Capture":
+    prefix: "jcap"
+    body: """{% capture $1 %}
+      $0
+    {% endcapture %}"""
+
+  "Case":
+    prefix: "jcas"
+    body: """{% case $1 %}
+      $0
+    {% endcase %}"""
+
+  "Comment":
+    prefix: "jco"
+    body: "{% comment %} $0 {% endcomment %}"
+
+  "Cycle":
+    prefix: "jcy"
+    body: "{% cycle $1 %}$0"
+
+  "Else If":
+    prefix: "jef"
+    body: "{% elsif $1 %}$0"
+
+  "For":
+    prefix: "jfor"
+    body: """{% for $1 in $2 %}
+      $0
+    {% endfor %}"""
+
+  "Gist":
+    prefix: "jg"
+    body: "{% gist $1 %}$0"
+
+  "Highlight":
+    prefix: "jh"
+    body: """{% highlight %}
+      $0
+    {% endhighlight %}"""
+
+  "If":
+    prefix: "jif"
+    body: """{% if $1 %}
+      $0
+    {% endif %}"""
+
+  "If...Else":
+    prefix: "jife"
+    body: """{% if $1 %}
+      $2
+    {% else %}
+      $3
+    {% endif %}"""
+
+  "Include":
+    prefix: "ji"
+    body: "{% include $1 %}"
+
+  "Post URL":
+    prefix: "jp"
+    body: "{% post_url $1 %}$0"
+
+  "Raw":
+    prefix: "jr"
+    body: "{% raw %}
+      $0
+    {% endraw %}"
+
+  "Unless":
+    prefix: "ju"
+    body: """{% unless $1 %}
+      $0
+    {% endunless %}"""
+
+  "Variable":
+    prefix: "jv"
+    body: "{{ $1 }}$0"
+
+  "When":
+    prefix: "jw"
+    body: "{% when $1 %}$0"
