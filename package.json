@@ -6,7 +6,8 @@
   "activationEvents": [
     "jekyll:open-layout",
     "jekyll:new-post",
-    "jekyll:open-config"
+    "jekyll:open-config",
+    "jekyll:open-include"
   ],
   "repository": "https://github.com/arcath/jekyll-atom",
   "license": "MIT",

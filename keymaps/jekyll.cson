@@ -10,3 +10,4 @@
 '.workspace':
   'cmd-alt-l': 'jekyll:open-layout'
   'cmd-alt-j': 'jekyll:new-post'
+  'cmd-shift-i': 'jekyll:open-include'

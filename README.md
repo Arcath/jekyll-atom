@@ -9,9 +9,14 @@ A collection of snippets and tools for [Jekyll] in [Atom]
 Jekyll-Atom has a couple of settings that can be set through the [Atom] settings.
 
 `Layouts Dir` The path to your layouts, defaults to `_layouts/`
+
 `Layouts Type` The file type of your layouts, defaults to `.html`
+
 `Posts Dir` The path to your posts, defaults to `_posts/`
+
 `Posts Type` The file type of your posts, defaults to `.markdown`
+
+`Includes Dir` The path to your includes, defaults to `_includes/`
 
 # Usage
 
@@ -20,6 +25,10 @@ Jekyll-Atom has a couple of settings that can be set through the [Atom] settings
 ### Open the layout for the current file
 
 When triggered this function looks through your file for `layout: foo` and then opens `LAYOUTS_DIR/foo.LAYOUT_FORMAT`
+
+### Open the include for the cursor position
+
+When triggered this function opens up the include for the current tag. For example if you had `{% include snippet.html %}` Atom would open `INCLUDES_DIR/snippet.html`
 
 ### Create a new Post
 
@@ -32,7 +41,10 @@ Opens `_config.yml`
 ## Keyboard Shortcuts
 
 `Cmd-Alt-L` Open the layout for the current file
+
 `Cmd-Alt-J` Create a new post
+
+`Cmd-Shift-I` Open include
 
 ## Snippets
 

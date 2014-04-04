@@ -9,10 +9,12 @@ module.exports =
     layoutsType: ".html"
     postsDir: "_posts/"
     postsType: ".markdown"
+    includesDir: "_includes/"
 
   activate: (state) ->
     atom.workspaceView.command "jekyll:open-layout", => @openLayout()
     atom.workspaceView.command "jekyll:open-config", => @openConfig()
+    atom.workspaceView.command "jekyll:open-include", => @openInclude()
     @jekyllNewPostView = new JekyllNewPostView(state.jekyllNewPostViewState)
 
   deactivate: ->
@@ -31,6 +33,16 @@ module.exports =
     try
       layout = @scan(contents, /layout: (.*?)[\r\n|\n\r|\r|\n]/g)[0][0]
       atom.workspaceView.open("_layouts/" + layout + ".html")
+    catch error
+      @showError(error.message)
+
+  openInclude: ->
+    activeEditor = atom.workspace.getActiveEditor()
+    line = activeEditor.getCursor().getCurrentBufferLine()
+
+    try
+      include = @scan(line, /{% include (.*?)%}/g)[0][0].split(" ")[0]
+      atom.workspaceView.open(atom.config.get('jekyll.includesDir') + include)
     catch error
       @showError(error.message)
 
