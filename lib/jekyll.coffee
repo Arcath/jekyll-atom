@@ -32,7 +32,7 @@ module.exports =
 
     try
       layout = @scan(contents, /layout: (.*?)[\r\n|\n\r|\r|\n]/g)[0][0]
-      atom.workspaceView.open("_layouts/" + layout + ".html")
+      atom.workspaceView.open(atom.config.get('jekyll.layoutsDir') + layout + atom.config.get('jekyll.layoutsType'))
     catch error
       @showError(error.message)
 
