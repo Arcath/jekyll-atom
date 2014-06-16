@@ -1,6 +1,7 @@
 {View, EditorView} = require 'atom'
 path = require 'path'
 fs = require 'fs-plus'
+os = require 'os'
 
 module.exports =
 class JekyllNewPostView extends View
@@ -63,5 +64,11 @@ class JekyllNewPostView extends View
     catch error
       @showError("#{error.message}.")
 
-  fileContents:(title, dateString)->
-    return '---\r\nlayout: post\r\ntitle: "' + title + '"\r\ndate: ' + dateString + '\r\n---'
+  fileContents: (title, dateString) ->
+    [
+      '---'
+      'layout: post'
+      "title: \"#{title}\""
+      "date: \"#{dateString}\""
+      '---'
+    ].join(os.EOL)
