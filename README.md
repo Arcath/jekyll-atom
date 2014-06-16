@@ -18,6 +18,8 @@ Jekyll-Atom has a couple of settings that can be set through the [Atom] settings
 
 `Includes Dir` The path to your includes, defaults to `_includes/`
 
+`Data Dir` The path to your data, defaults to `_data/`
+
 # Usage
 
 ## Functions
