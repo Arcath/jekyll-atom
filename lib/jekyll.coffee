@@ -10,11 +10,13 @@ module.exports =
     postsDir: "_posts/"
     postsType: ".markdown"
     includesDir: "_includes/"
+    dataDir: "_data/"
 
   activate: (state) ->
     atom.workspaceView.command "jekyll:open-layout", => @openLayout()
     atom.workspaceView.command "jekyll:open-config", => @openConfig()
     atom.workspaceView.command "jekyll:open-include", => @openInclude()
+    atom.workspaceView.command "jekyll:open-data", => @openData()
     @jekyllNewPostView = new JekyllNewPostView(state.jekyllNewPostViewState)
 
   deactivate: ->
@@ -48,6 +50,16 @@ module.exports =
 
   openConfig: ->
     atom.workspaceView.open("_config.yml")
+
+  openData: ->
+    activeEditor = atom.workspace.getActiveEditor()
+    line = activeEditor.getCursor().getCurrentBufferLine()
+
+    try
+      data = @scan(line, /site\.data\.(.*?) /g)[0][0].split(" ")[0]
+      atom.workspaceView.open(atom.config.get('jekyll.dataDir') + data + ".yml")
+    catch error
+      @showError(error.message)
 
   scan: (string, pattern) ->
     matches = []

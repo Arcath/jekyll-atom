@@ -8,7 +8,8 @@
         { 'label': 'New Post', 'command': 'jekyll:new-post' },
         { 'label': 'Open Config', 'command': 'jekyll:open-config' },
         { 'label': 'Open Layout', 'command': 'jekyll:open-layout' },
-        { 'label': 'Open Include', 'command': 'jekyll:open-include' }
+        { 'label': 'Open Include', 'command': 'jekyll:open-include' },
+        { 'label': 'Open Data File', 'command': 'jekyll:open-data'}
       ]
     ]
   }
