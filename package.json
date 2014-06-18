@@ -1,7 +1,7 @@
 {
   "name": "jekyll",
   "main": "./lib/jekyll",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A collection of snippets and tools for Jekyll",
   "activationEvents": [
     "jekyll:open-layout",
