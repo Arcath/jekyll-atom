@@ -15,6 +15,7 @@ module.exports =
     includesDir: "_includes/"
     dataDir: "_data/"
     serverOptions: ["serve", "-w"]
+    jekyllBinary: "jekyll"
 
   activate: (state) ->
     atom.workspaceView.command "jekyll:open-layout", => @openLayout()

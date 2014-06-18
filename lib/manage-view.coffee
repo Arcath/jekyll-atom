@@ -5,7 +5,6 @@ jekyllServer = null
 module.exports =
 class ManagerView extends ScrollView
   @server: null
-  @stdout: null
 
   @content: ->
     @div class: "jekyll-manager-view pane-item", tabindex: -1, =>
@@ -24,7 +23,7 @@ class ManagerView extends ScrollView
           @div class: 'pwd', outlet: "jekyllPWD"
           @div class: 'server-status', outlet: "serverStatus", "Server Status: ", =>
             @span class: 'off', "Off"
-        @div class: 'console', outlet: "console", "Start the server using the controls on the left"
+        @div class: 'console', outlet: "console"
 
   getTitle: ->
     'Jekyll Manager'
@@ -35,15 +34,15 @@ class ManagerView extends ScrollView
   initialize: ->
     super
 
-    ManagerView.stdout = @console
-
     @getInfo()
     @bindEvents()
 
   getInfo: ->
     @jekyllPWD.html atom.project.getPath()
 
-    childProcess.exec "jekyll -v", (error, stdout, stderr) ->
+    versionCommand = atom.config.get('jekyll.jekyllBinary') + " -v"
+
+    childProcess.exec versionCommand, (error, stdout, stderr) ->
       $('.jekyll-version').html(stdout.replace(/j/,"J"))
 
   bindEvents: ->
@@ -55,10 +54,10 @@ class ManagerView extends ScrollView
       $('.server-status span').addClass("on")
       $('.server-status span').removeClass("off")
 
-      $('.console').html("Launching Server... <i>(jekyll " + atom.config.get('jekyll.serverOptions').join(" ") + ")</i><br />")
+      $('.console').append("Launching Server... <i>(" + atom.config.get('jekyll.jekyllBinary') + " " + atom.config.get('jekyll.serverOptions').join(" ") + ")</i><br />")
 
 
-      ManagerView.server = childProcess.spawn "jekyll", atom.config.get('jekyll.serverOptions'), {cwd: atom.project.getPath()}
+      ManagerView.server = childProcess.spawn atom.config.get('jekyll.jekyllBinary'), atom.config.get('jekyll.serverOptions'), {cwd: atom.project.getPath()}
       ManagerView.server.stdout.setEncoding('utf8')
 
       ManagerView.bindServerEvents()
@@ -70,6 +69,7 @@ class ManagerView extends ScrollView
 
       killCMD = "kill " + ManagerView.server.pid
       $('.console').append("Stopping Server... <i>(" + killCMD + ")</i><br />")
+      $('.console').animate({"scrollTop": $('.console')[0].scrollHeight}, "fast")
 
       childProcess.exec killCMD
 
@@ -88,3 +88,4 @@ class ManagerView extends ScrollView
       with_brs = data.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br />$2');
       with_changes = with_brs.replace(/ctrl-c/, "<i>Stop Server</i>")
       $('.console').append(with_changes)
+      $('.console').animate({"scrollTop": $('.console')[0].scrollHeight}, "fast")
