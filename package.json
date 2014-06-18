@@ -17,8 +17,6 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "fs-plus": "^2.0.4",
-    "js-yaml": "^3.0.2",
-    "underscore-plus": "^1.0.6"
+    "fs-plus": "^2.0.4"
   }
 }
