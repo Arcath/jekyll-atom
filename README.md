@@ -2,7 +2,7 @@
 
 A collection of snippets and tools for [Jekyll] in [Atom]
 
-[![Jekyll Logo](http://jekyllrb.com/img/logo-2x.png)](http://jekyllrb.com)
+[![Jekyll Logo](https://raw.githubusercontent.com/Arcath/jekyll-atom/master/images/jekyll.png)](http://jekyllrb.com)
 
 # Configuring
 
@@ -21,6 +21,12 @@ Jekyll-Atom has a couple of settings that can be set through the [Atom] settings
 `Data Dir` The path to your data, defaults to `_data/`
 
 # Usage
+
+## Jekyll Manager
+
+Jekyll Manager is a management console for Jekyll that runs in Atom. With Jekyll Manager you can now do all your Jekyll Development without leaving your editor!
+
+![Jekyll Manager](https://raw.githubusercontent.com/Arcath/jekyll-atom/master/Jekyll-Manager.gif)
 
 ## Functions
 
