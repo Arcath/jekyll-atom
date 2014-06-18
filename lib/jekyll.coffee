@@ -1,5 +1,8 @@
 JekyllNewPostView = require './new-post-view'
-childProcess = require 'child_process'
+JekyllManageView = require './manage-view'
+
+createManageView = (params) ->
+  manageView = new JekyllManageView(params)
 
 module.exports =
   jekyllNewPostView: null
@@ -17,6 +20,11 @@ module.exports =
     atom.workspaceView.command "jekyll:open-config", => @openConfig()
     atom.workspaceView.command "jekyll:open-include", => @openInclude()
     atom.workspaceView.command "jekyll:open-data", => @openData()
+    atom.workspaceView.command "jekyll:manage", => @manage()
+
+    atom.workspace.registerOpener (uri) ->
+      createManageView({uri}) if uri is 'atom://jekyll'
+
     @jekyllNewPostView = new JekyllNewPostView(state.jekyllNewPostViewState)
 
   deactivate: ->
@@ -60,6 +68,9 @@ module.exports =
       atom.workspaceView.open(atom.config.get('jekyll.dataDir') + data + ".yml")
     catch error
       @showError(error.message)
+
+  manage: ->
+    atom.workspaceView.open('atom://jekyll')
 
   scan: (string, pattern) ->
     matches = []
