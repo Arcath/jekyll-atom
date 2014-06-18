@@ -78,6 +78,10 @@ class ManagerView extends ScrollView
       childProcess.exec "jekyll build"
       $('.console').append("Done!<br />")
 
+    @openDocs.on 'click', ->
+      require('shell').openExternal('http://jekyllrb.com/docs/home/')
+      false
+
   @bindServerEvents: ->
 
     @server.stdout.on 'data', (data) ->
