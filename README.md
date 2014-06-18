@@ -20,6 +20,8 @@ Jekyll-Atom has a couple of settings that can be set through the [Atom] settings
 
 `Data Dir` The path to your data, defaults to `_data/`
 
+`Server Options` The options passed to the jekyll command to run your server, defaults to `serve, -w`
+
 # Usage
 
 ## Jekyll Manager

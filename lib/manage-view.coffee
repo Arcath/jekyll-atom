@@ -55,10 +55,10 @@ class ManagerView extends ScrollView
       $('.server-status span').addClass("on")
       $('.server-status span').removeClass("off")
 
-      $('.console').html("Launching Server... <i>(jekyll serve -w)</i><br />")
+      $('.console').html("Launching Server... <i>(jekyll " + atom.config.get('jekyll.serverOptions').join(" ") + ")</i><br />")
 
 
-      ManagerView.server = childProcess.spawn "jekyll", ["serve", "-w"], {cwd: atom.project.getPath()}
+      ManagerView.server = childProcess.spawn "jekyll", atom.config.get('jekyll.serverOptions'), {cwd: atom.project.getPath()}
       ManagerView.server.stdout.setEncoding('utf8')
 
       ManagerView.bindServerEvents()

@@ -14,6 +14,7 @@ module.exports =
     postsType: ".markdown"
     includesDir: "_includes/"
     dataDir: "_data/"
+    serverOptions: ["serve", "-w"]
 
   activate: (state) ->
     atom.workspaceView.command "jekyll:open-layout", => @openLayout()
