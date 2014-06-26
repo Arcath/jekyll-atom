@@ -5,12 +5,12 @@
     'submenu': [
       'label': 'Jekyll'
       'submenu': [
+        { 'label': 'Manage Jekyll', 'command': 'jekyll:manage'},
         { 'label': 'New Post', 'command': 'jekyll:new-post' },
         { 'label': 'Open Config', 'command': 'jekyll:open-config' },
         { 'label': 'Open Layout', 'command': 'jekyll:open-layout' },
         { 'label': 'Open Include', 'command': 'jekyll:open-include' },
-        { 'label': 'Open Data File', 'command': 'jekyll:open-data'},
-        { 'label': 'Manage Jekyll', 'command': 'jekyll:manage'}
+        { 'label': 'Open Data File', 'command': 'jekyll:open-data'}
       ]
     ]
   }
