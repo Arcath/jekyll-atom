@@ -50,6 +50,10 @@ When triggered this function brings up a popup at the top of the screen for you 
 
 Opens `_config.yml`
 
+### Open Data File
+
+When Triggered this function looks at the text around your cursor to find the data file to open. For Example triggering Open Data File whilst your cursor is within the `site.data.team` in this `{{ blah site.data.team }}` would result in `DATADIR/team.yml` being opened.
+
 ## Keyboard Shortcuts
 
 `Cmd-Alt-L` Open the layout for the current file
