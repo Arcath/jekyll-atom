@@ -1,5 +1,6 @@
 JekyllNewPostView = require './new-post-view'
-JekyllManageView = require './manage-view'
+JekyllManagerView = require './manage-bar-view'
+JekyllServer = require './server'
 
 createManageView = (params) ->
   manageView = new JekyllManageView(params)
@@ -28,12 +29,14 @@ module.exports =
       createManageView({uri}) if uri is 'atom://jekyll'
 
     @jekyllNewPostView = new JekyllNewPostView(state.jekyllNewPostViewState)
+    @jekyllServer = new JekyllServer
 
   deactivate: ->
     @jekyllNewPostView.destroy()
 
   serialize: ->
     jekyllNewPostViewState: @jekyllNewPostView.serialize()
+    @jekyllServer.stop()
 
   showError: (message) ->
     console.log(message)
@@ -72,7 +75,13 @@ module.exports =
       @showError(error.message)
 
   manage: ->
-    atom.workspaceView.open('atom://jekyll')
+    if @manageView
+      @managePanel.show()
+      @manageView.refresh()
+    else
+      @manageView = new JekyllManagerView(@jekyllServer)
+      @managePanel = atom.workspace.addBottomPanel(item: @manageView, visible: true, className: 'tool-panel panel-bottom')
+      @manageView.setPanel @managePanel
 
   scan: (string, pattern) ->
     matches = []
