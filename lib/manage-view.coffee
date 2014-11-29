@@ -22,8 +22,8 @@ class ManagerView extends ScrollView
           @div class: 'jekyll-version', outlet: "jekyllVersion"
           @div class: 'pwd', outlet: "jekyllPWD"
           @div class: 'server-status', outlet: "serverStatus", "Server Status: ", =>
-            @span class: 'off', "Off"
-        @div class: 'console', outlet: "console"
+            @span class: 'highlight-error', "Off"
+        @pre class: 'console', outlet: "console"
 
   getTitle: ->
     'Jekyll Manager'
@@ -51,8 +51,8 @@ class ManagerView extends ScrollView
 
     @startServer.on 'click', ->
       $('.server-status span').html("Running")
-      $('.server-status span').addClass("on")
-      $('.server-status span').removeClass("off")
+      $('.server-status span').addClass("highlight-success")
+      $('.server-status span').removeClass("highlight-error")
 
       $('.console').append("Launching Server... <i>(" + atom.config.get('jekyll.jekyllBinary') + " " + atom.config.get('jekyll.serverOptions').join(" ") + ")</i><br />")
 
@@ -64,8 +64,8 @@ class ManagerView extends ScrollView
 
     @stopServer.on 'click', ->
       $('.server-status span').html("Off")
-      $('.server-status span').addClass("off")
-      $('.server-status span').removeClass("on")
+      $('.server-status span').addClass("highlight-error")
+      $('.server-status span').removeClass("highlight-success")
 
       killCMD = "kill " + ManagerView.server.pid
       $('.console').append("Stopping Server... <i>(" + killCMD + ")</i><br />")
