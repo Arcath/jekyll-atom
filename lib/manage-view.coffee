@@ -1,11 +1,7 @@
 {$, $$, ScrollView} = require 'atom'
-childProcess = require 'child_process'
-jekyllServer = null
 
 module.exports =
 class ManagerView extends ScrollView
-  @server: null
-
   @content: ->
     @div class: "jekyll-manager-view pane-item", tabindex: -1, =>
       @div class: "controls", =>
@@ -13,8 +9,8 @@ class ManagerView extends ScrollView
         @a class: "button icon icon-tools", outlet: "openConfig", "Open Config"
         @a class: "button icon icon-repo", outlet: "openDocs", "View Documentation"
         @div class: "heading icon icon-server", "Server"
-        @a class: "button icon icon-playback-play", outlet: "startServer", "Start Server"
-        @a class: "button icon icon-primitive-square", outlet: "stopServer", "Stop Server"
+        @a class: "button icon icon-playback-play", outlet: "startServer", click: 'startServer', "Start Server"
+        @a class: "button icon icon-primitive-square", outlet: "stopServer", click: 'stopServer', "Stop Server"
         @div class: "heading icon icon-device-desktop", "Site"
         @a class: "button icon icon-sync", outlet: "regenSite", "Build"
       @div class: 'main', =>
@@ -31,61 +27,68 @@ class ManagerView extends ScrollView
   getIconName: ->
     'settings'
 
-  initialize: ->
+  initialize: (emitter) ->
     super
+    @emitter = emitter
 
     @getInfo()
     @bindEvents()
+    @bindEmitters()
 
   getInfo: ->
     @jekyllPWD.html atom.project.getPath()
 
-    versionCommand = atom.config.get('jekyll.jekyllBinary') + " -v"
+  afterAttach: ->
+    @emitter.emit 'jekyll:pre-fill-console'
+    @emitter.emit 'jekyll:server-status'
+    @emitter.emit 'jekyll:version'
 
-    childProcess.exec versionCommand, (error, stdout, stderr) ->
-      $('.jekyll-version').html(stdout.replace(/j/,"J"))
+  beforeRemove: ->
+    @versionEmitter.dispose()
+    @statusEmitter.dispose()
+    @consoleFillEmitter.dispose()
+    @consoleMessageEmitter.dispose()
+
 
   bindEvents: ->
     @openConfig.on 'click', ->
       atom.workspaceView.open("_config.yml")
 
-    @startServer.on 'click', ->
-      $('.server-status span').html("Running")
-      $('.server-status span').addClass("highlight-success")
-      $('.server-status span').removeClass("highlight-error")
-
-      $('.console').append("Launching Server... <i>(" + atom.config.get('jekyll.jekyllBinary') + " " + atom.config.get('jekyll.serverOptions').join(" ") + ")</i><br />")
-
-
-      ManagerView.server = childProcess.spawn atom.config.get('jekyll.jekyllBinary'), atom.config.get('jekyll.serverOptions'), {cwd: atom.project.getPath()}
-      ManagerView.server.stdout.setEncoding('utf8')
-
-      ManagerView.bindServerEvents()
-
-    @stopServer.on 'click', ->
-      $('.server-status span').html("Off")
-      $('.server-status span').addClass("highlight-error")
-      $('.server-status span').removeClass("highlight-success")
-
-      killCMD = "kill " + ManagerView.server.pid
-      $('.console').append("Stopping Server... <i>(" + killCMD + ")</i><br />")
-      $('.console').animate({"scrollTop": $('.console')[0].scrollHeight}, "fast")
-
-      childProcess.exec killCMD
-
     @regenSite.on 'click', ->
       $('.console').append("Building Website...")
-      childProcess.exec "jekyll build"
+      #childProcess.exec "jekyll build"
       $('.console').append("Done!<br />")
 
     @openDocs.on 'click', ->
       require('shell').openExternal('http://jekyllrb.com/docs/home/')
       false
 
-  @bindServerEvents: ->
+  bindEmitters: ->
+    @versionEmitter = @emitter.on 'jekyll:version-reply', (data) ->
+      $('.jekyll-version').html(data)
 
-    @server.stdout.on 'data', (data) ->
-      with_brs = data.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br />$2');
-      with_changes = with_brs.replace(/ctrl-c/, "<i>Stop Server</i>")
-      $('.console').append(with_changes)
+    @statusEmitter = @emitter.on 'jekyll:server-status-reply', (status) ->
+      if status == 'Off'
+        $('.server-status span').html("Off")
+        $('.server-status span').addClass("highlight-error")
+        $('.server-status span').removeClass("highlight-success")
+      else
+        $('.server-status span').html("Running")
+        $('.server-status span').addClass("highlight-success")
+        $('.server-status span').removeClass("highlight-error")
+
+    @consoleFillEmitter = @emitter.on 'jekyll:console-fill', (data) ->
+      $('.console').html(data)
       $('.console').animate({"scrollTop": $('.console')[0].scrollHeight}, "fast")
+
+    @consoleMessageEmitter = @emitter.on 'jekyll:console-message', (message) ->
+      $('.console').append(message)
+      $('.console').animate({"scrollTop": $('.console')[0].scrollHeight}, "fast")
+
+  startServer: (event, element) ->
+    @emitter.emit 'jekyll:start-server'
+    false
+
+  stopServer: (event, element) ->
+    @emitter.emit 'jekyll:stop-server'
+    false

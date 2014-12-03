@@ -1,9 +1,10 @@
-JekyllNewPostView = require './new-post-view'
-JekyllManagerView = require './manage-bar-view'
-JekyllServer = require './server'
+{Emitter} = require 'atom'
+JekyllEmitter = new Emitter
 
-createManageView = (params) ->
-  manageView = new JekyllManageView(params)
+JekyllNewPostView = require './new-post-view'
+JekyllToolbarView = require './toolbar-view'
+JekyllManageView = require './manage-view'
+JekyllServer = require './server'
 
 module.exports =
   jekyllNewPostView: null
@@ -24,19 +25,20 @@ module.exports =
     atom.workspaceView.command "jekyll:open-include", => @openInclude()
     atom.workspaceView.command "jekyll:open-data", => @openData()
     atom.workspaceView.command "jekyll:manage", => @manage()
-
-    atom.workspace.registerOpener (uri) ->
-      createManageView({uri}) if uri is 'atom://jekyll'
+    atom.workspaceView.command "jekyll:toolbar", => @toolbar()
 
     @jekyllNewPostView = new JekyllNewPostView(state.jekyllNewPostViewState)
     @jekyllServer = new JekyllServer
+    @jekyllServer.activate(JekyllEmitter)
+
+    @registerOpenView()
 
   deactivate: ->
     @jekyllNewPostView.destroy()
 
   serialize: ->
     jekyllNewPostViewState: @jekyllNewPostView.serialize()
-    @jekyllServer.stop()
+    JekyllEmitter.emit 'jekyll:stop-server'
 
   showError: (message) ->
     console.log(message)
@@ -75,13 +77,16 @@ module.exports =
       @showError(error.message)
 
   manage: ->
-    if @manageView
-      @managePanel.show()
-      @manageView.refresh()
+    atom.workspaceView.open('atom://jekyll')
+
+  toolbar: ->
+    if @toolbarView
+      @toolbarPanel.show()
+      @toolbarView.refresh()
     else
-      @manageView = new JekyllManagerView(@jekyllServer)
-      @managePanel = atom.workspace.addBottomPanel(item: @manageView, visible: true, className: 'tool-panel panel-bottom')
-      @manageView.setPanel @managePanel
+      @toolbarView = new JekyllToolbarView(JekyllEmitter)
+      @toolbarPanel = atom.workspace.addBottomPanel(item: @toolbarView, visible: true, className: 'tool-panel panel-bottom')
+      @toolbarView.setPanel @toolbarPanel
 
   scan: (string, pattern) ->
     matches = []
@@ -91,3 +96,8 @@ module.exports =
       results.push(matches)
 
     return results
+
+  registerOpenView: ->
+    atom.workspace.registerOpener (uri) ->
+      if uri is 'atom://jekyll'
+        return new JekyllManageView(JekyllEmitter)

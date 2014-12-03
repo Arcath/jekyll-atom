@@ -1,7 +1,7 @@
 {
   "name": "jekyll",
   "main": "./lib/jekyll",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "A collection of snippets and tools for Jekyll",
   "activationEvents": [
     "jekyll:open-layout",
@@ -9,7 +9,8 @@
     "jekyll:open-config",
     "jekyll:open-include",
     "jekyll:open-data",
-    "jekyll:manage"
+    "jekyll:manage",
+    "jekyll:toolbar"
   ],
   "repository": "https://github.com/arcath/jekyll-atom",
   "license": "MIT",
