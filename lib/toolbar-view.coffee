@@ -15,7 +15,7 @@ module.exports =
               @button class: 'btn', click: 'hidePanel', 'Close'
 
         @div class: 'block', =>
-          @div class: 'jtconsole', outlet: 'jtconsole', id: 'jtconsole'
+          @pre outlet: 'jtconsole', id: 'jtconsole'
 
     initialize: (emitter) ->
       @emitter = emitter
