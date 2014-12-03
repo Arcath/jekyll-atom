@@ -17,6 +17,7 @@ module.exports =
       @emitter.on 'jekyll:server-status', => @status()
       @emitter.on 'jekyll:version', => @version()
       @emitter.on 'jekyll:pre-fill-console', => @preFillConsole()
+      @emitter.on 'jekyll:build-site', => @buildSite()
 
     status: ->
       if @pid == 0
@@ -34,8 +35,7 @@ module.exports =
 
     start: ->
       launchMSG = "Launching Server... <i>(" + atom.config.get('jekyll.jekyllBinary') + " " + atom.config.get('jekyll.serverOptions').join(" ") + ")</i><br />"
-      JekyllServer.consoleLog += launchMSG
-      @emitter.emit('jekyll:console-message', launchMSG)
+      @emitMessage launchMSG
 
       @process = childProcess.spawn atom.config.get('jekyll.jekyllBinary'), atom.config.get('jekyll.serverOptions'), {cwd: @pwd}
       @process.stdout.setEncoding('utf8')
@@ -51,9 +51,8 @@ module.exports =
 
     stop: ->
       killCMD = "kill " + @pid
-      killMSG = "Stopping Server... <i>(" + killCMD + ")</i><br />"
-      JekyllServer.consoleLog += killMSG
-      @emitter.emit('jekyll:console-message', killMSG)
+      @emitMessage "Stopping Server... <i>(" + killCMD + ")</i><br />"
+
 
       childProcess.exec killCMD
       @process = null
@@ -62,3 +61,15 @@ module.exports =
 
     preFillConsole: ->
       @emitter.emit 'jekyll:console-fill', JekyllServer.consoleLog
+
+    emitMessage: (message) ->
+      JekyllServer.consoleLog += message
+      @emitter.emit('jekyll:console-message', message)
+
+    buildSite: ->
+      @emitMessage 'Building Site...<br />'
+
+      buildCommand = atom.config.get('jekyll.jekyllBinary') + " build"
+
+      childProcess.exec buildCommand, (error, stdout, stderr) ->
+        JekyllServer.emitter.emit 'jekyll:console-message', stdout

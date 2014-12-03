@@ -12,7 +12,7 @@ class ManagerView extends ScrollView
         @a class: "button icon icon-playback-play", outlet: "startServer", click: 'startServer', "Start Server"
         @a class: "button icon icon-primitive-square", outlet: "stopServer", click: 'stopServer', "Stop Server"
         @div class: "heading icon icon-device-desktop", "Site"
-        @a class: "button icon icon-sync", outlet: "regenSite", "Build"
+        @a class: "button icon icon-sync", outlet: "regenSite", click: 'buildSite', "Build"
       @div class: 'main', =>
         @div class: 'jekyll-status-bar', outlet: "statusBar", =>
           @div class: 'jekyll-version', outlet: "jekyllVersion"
@@ -54,11 +54,6 @@ class ManagerView extends ScrollView
     @openConfig.on 'click', ->
       atom.workspaceView.open("_config.yml")
 
-    @regenSite.on 'click', ->
-      $('.console').append("Building Website...")
-      #childProcess.exec "jekyll build"
-      $('.console').append("Done!<br />")
-
     @openDocs.on 'click', ->
       require('shell').openExternal('http://jekyllrb.com/docs/home/')
       false
@@ -91,4 +86,8 @@ class ManagerView extends ScrollView
 
   stopServer: (event, element) ->
     @emitter.emit 'jekyll:stop-server'
+    false
+
+  buildSite: (event, element) ->
+    @emitter.emit 'jekyll:build-site'
     false
