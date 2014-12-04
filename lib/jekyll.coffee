@@ -5,6 +5,7 @@ JekyllNewPostView = require './new-post-view'
 JekyllToolbarView = require './toolbar-view'
 JekyllManageView = require './manage-view'
 JekyllServer = require './server'
+JekyllStatusBar = require './status-bar-view'
 
 module.exports =
   jekyllNewPostView: null
@@ -33,6 +34,8 @@ module.exports =
     @jekyllServer.activate(JekyllEmitter)
 
     @registerOpenView()
+
+    atom.workspaceView.statusBar?.appendRight(new JekyllStatusBar(JekyllEmitter))
 
   deactivate: ->
     @jekyllNewPostView.destroy()
