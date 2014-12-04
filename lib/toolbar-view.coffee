@@ -37,6 +37,7 @@ module.exports =
 
     refresh: ->
       @initToggleButton()
+      $('#jtconsole').animate({"scrollTop": $('#jtconsole')[0].scrollHeight}, "fast")
 
     initConsole: ->
       @emitter.on 'jekyll:console-message', (message) ->
