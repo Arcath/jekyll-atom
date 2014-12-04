@@ -26,11 +26,13 @@ Jekyll-Atom has a couple of settings that can be set through the [Atom] settings
 
 # Usage
 
-## Jekyll Manager
+## Server Management
 
-Jekyll Manager is a management console for Jekyll that runs in Atom. With Jekyll Manager you can now do all your Jekyll Development without leaving your editor!
+Jeykll-Atom can run your Jekyll Server right in Atom!
 
-![Jekyll Manager](https://raw.githubusercontent.com/Arcath/jekyll-atom/master/Jekyll-Manager.gif)
+Both the toolbar (`Cmd-Alt-T`) and the management window (_Jekyll: Mange_ in the Command Palette) have a console for the stdout output and buttons to control the server.
+
+The server runs in the background and can be started/stopped from anywhere using the Toggle Server command `Alt-Shift-T`.
 
 ## Functions
 
@@ -58,9 +60,15 @@ When Triggered this function looks at the text around your cursor to find the da
 
 `Cmd-Alt-L` Open the layout for the current file
 
-`Cmd-Alt-J` Create a new post
+`Cmd-Alt-D` Open the Datafile
 
 `Cmd-Shift-I` Open include
+
+`Cmd-Alt-J` Create a new post
+
+`Cmd-Alt-T` Open the toolbar
+
+`Alt-Shift-T` Turn the server on/off
 
 ## Snippets
 
