@@ -6,6 +6,7 @@
       'label': 'Jekyll'
       'submenu': [
         { 'label': 'Manage Jekyll', 'command': 'jekyll:manage'},
+        { 'label': 'Open Toolbar', 'command': 'jekyll:toolbar'},
         { 'label': 'New Post', 'command': 'jekyll:new-post' },
         { 'label': 'Open Config', 'command': 'jekyll:open-config' },
         { 'label': 'Open Layout', 'command': 'jekyll:open-layout' },
