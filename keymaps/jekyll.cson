@@ -13,3 +13,4 @@
   'cmd-shift-i': 'jekyll:open-include'
   'cmd-alt-d': 'jekyll:open-data'
   'cmd-alt-t': 'jekyll:toolbar'
+  'alt-shift-t': 'jekyll:toggle-server'

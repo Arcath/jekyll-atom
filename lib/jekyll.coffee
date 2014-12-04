@@ -26,6 +26,7 @@ module.exports =
     atom.workspaceView.command "jekyll:open-data", => @openData()
     atom.workspaceView.command "jekyll:manage", => @manage()
     atom.workspaceView.command "jekyll:toolbar", => @toolbar()
+    atom.workspaceView.command "jekyll:toggle-server", => @toggleServer()
 
     @jekyllNewPostView = new JekyllNewPostView(state.jekyllNewPostViewState)
     @jekyllServer = new JekyllServer
@@ -101,3 +102,6 @@ module.exports =
     atom.workspace.registerOpener (uri) ->
       if uri is 'atom://jekyll'
         return new JekyllManageView(JekyllEmitter)
+
+  toggleServer: ->
+    JekyllEmitter.emit 'jekyll:toggle-server'

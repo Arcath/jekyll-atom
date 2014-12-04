@@ -18,6 +18,7 @@ module.exports =
       @emitter.on 'jekyll:version', => @version()
       @emitter.on 'jekyll:pre-fill-console', => @preFillConsole()
       @emitter.on 'jekyll:build-site', => @buildSite()
+      @emitter.on 'jekyll:toggle-server', => @toggle()
 
     status: ->
       if @pid == 0
@@ -73,3 +74,9 @@ module.exports =
 
       childProcess.exec buildCommand, (error, stdout, stderr) ->
         JekyllServer.emitter.emit 'jekyll:console-message', stdout
+
+    toggle: ->
+      if @pid is 0
+        @start()
+      else
+        @stop()
