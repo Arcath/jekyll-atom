@@ -10,7 +10,8 @@
     "jekyll:open-include",
     "jekyll:open-data",
     "jekyll:manage",
-    "jekyll:toolbar"
+    "jekyll:toolbar",
+    "jekyll:toggle-server"
   ],
   "repository": "https://github.com/arcath/jekyll-atom",
   "license": "MIT",
