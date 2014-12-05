@@ -48,8 +48,13 @@ module.exports =
         with_brs = data.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br />$2')
         with_changes = with_brs.replace(/ctrl-c/, "<i>Stop Server</i>")
         with_colors = with_changes.replace(/done/, "<span class=\"text-success\">done</span>").replace(/error/, "<span class=\"text-error\">error</span>")
-        JekyllServer.consoleLog += with_changes
+        JekyllServer.consoleLog += with_colors
         JekyllServer.emitter.emit 'jekyll:console-message', with_colors
+
+      @process.stderr.on 'data', (data) ->
+        with_brs = data.toString().replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br />$2')
+        JekyllServer.consoleLog += with_brs
+        JekyllServer.emitter.emit 'jekyll:console-message', with_brs
 
     stop: ->
       killCMD = "kill " + @pid

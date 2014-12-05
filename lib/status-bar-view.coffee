@@ -10,7 +10,6 @@ module.exports =
       @emitter = emitter
 
       @emitter.on 'jekyll:server-status-reply', (status) ->
-        console.log status
         if status is 'On'
           $('#jekyllStatusLink').addClass('text-success')
         else
