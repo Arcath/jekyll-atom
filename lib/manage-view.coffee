@@ -9,8 +9,8 @@ class ManagerView extends ScrollView
         @a class: "button icon icon-tools", outlet: "openConfig", "Open Config"
         @a class: "button icon icon-repo", outlet: "openDocs", "View Documentation"
         @div class: "heading icon icon-server", "Server"
-        @a class: "button icon icon-playback-play", outlet: "startServer", click: 'startServer', "Start Server"
-        @a class: "button icon icon-primitive-square", outlet: "stopServer", click: 'stopServer', "Stop Server"
+        @a class: "button icon icon-playback-play", click: 'startServer', "Start Server"
+        @a class: "button icon icon-primitive-square", click: 'stopServer', "Stop Server"
         @div class: "heading icon icon-device-desktop", "Site"
         @a class: "button icon icon-sync", outlet: "regenSite", click: 'buildSite', "Build"
       @div class: 'main', =>
