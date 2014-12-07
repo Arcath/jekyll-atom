@@ -39,6 +39,7 @@ module.exports =
 
   deactivate: ->
     @jekyllNewPostView.destroy()
+    @jekyllServer.stop()
 
   serialize: ->
     jekyllNewPostViewState: @jekyllNewPostView.serialize()
