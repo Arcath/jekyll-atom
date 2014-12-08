@@ -3,7 +3,6 @@ childProcess = require 'child_process'
 module.exports =
   class JekyllServer
     pwd: atom.project.getPath()
-    pid: 0
     process: null
     consoleLog: ''
     emitter: null
@@ -20,8 +19,14 @@ module.exports =
       @emitter.on 'jekyll:build-site', => @buildSite()
       @emitter.on 'jekyll:toggle-server', => @toggle()
 
+    pid: ->
+      if @process is null
+        return 0
+      else
+        return @process.pid
+
     status: ->
-      if @pid == 0
+      if @pid() == 0
         status = 'Off'
       else
         status = 'On'
@@ -41,7 +46,6 @@ module.exports =
       @process = childProcess.spawn atom.config.get('jekyll.jekyllBinary'), atom.config.get('jekyll.serverOptions'), {cwd: @pwd}
       @process.stdout.setEncoding('utf8')
 
-      @pid = @process.pid
       @status()
 
       @process.stdout.on 'data', (data) ->
@@ -57,13 +61,10 @@ module.exports =
         JekyllServer.emitter.emit 'jekyll:console-message', with_brs
 
     stop: ->
-      killCMD = "kill " + @pid
-      @emitMessage "Stopping Server... <i>(" + killCMD + ")</i><br />"
+      @emitMessage "Stopping Server<br />"
+      @process.kill('SIGTERM')
 
-
-      childProcess.exec killCMD
       @process = null
-      @pid = 0
       @status()
 
     preFillConsole: ->
@@ -82,7 +83,7 @@ module.exports =
         JekyllServer.emitter.emit 'jekyll:console-message', stdout
 
     toggle: ->
-      if @pid is 0
+      if @pid() is 0
         @start()
       else
         @stop()
