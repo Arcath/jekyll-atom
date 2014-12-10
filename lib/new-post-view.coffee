@@ -3,6 +3,8 @@ path = require 'path'
 fs = require 'fs-plus'
 os = require 'os'
 
+{$} = require 'space-pen'
+
 module.exports =
 class JekyllNewPostView extends View
   @content: ->

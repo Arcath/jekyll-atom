@@ -2,7 +2,7 @@ childProcess = require 'child_process'
 
 module.exports =
   class JekyllServer
-    pwd: atom.project.getPath()
+    pwd: atom.project.getPaths()[0]
     process: null
     consoleLog: ''
     emitter: null

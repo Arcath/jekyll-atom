@@ -20,16 +20,16 @@ module.exports =
     serverOptions: ["serve", "-w"]
     jekyllBinary: "jekyll"
 
-  activate: (state) ->
-    atom.workspaceView.command "jekyll:open-layout", => @openLayout()
-    atom.workspaceView.command "jekyll:open-config", => @openConfig()
-    atom.workspaceView.command "jekyll:open-include", => @openInclude()
-    atom.workspaceView.command "jekyll:open-data", => @openData()
-    atom.workspaceView.command "jekyll:manage", => @manage()
-    atom.workspaceView.command "jekyll:toolbar", => @toolbar()
-    atom.workspaceView.command "jekyll:toggle-server", => @toggleServer()
+  activate: ->
+    atom.commands.add 'atom-workspace', "jekyll:open-layout", => @openLayout()
+    atom.commands.add 'atom-workspace', "jekyll:open-config", => @openConfig()
+    atom.commands.add 'atom-workspace', "jekyll:open-include", => @openInclude()
+    atom.commands.add 'atom-workspace', "jekyll:open-data", => @openData()
+    atom.commands.add 'atom-workspace', "jekyll:manage", => @manage()
+    atom.commands.add 'atom-workspace', "jekyll:toolbar", => @toolbar()
+    atom.commands.add 'atom-workspace', "jekyll:toggle-server", => @toggleServer()
 
-    @jekyllNewPostView = new JekyllNewPostView(state.jekyllNewPostViewState)
+    @jekyllNewPostView = new JekyllNewPostView()
     @jekyllServer = new JekyllServer
     @jekyllServer.activate(JekyllEmitter)
 

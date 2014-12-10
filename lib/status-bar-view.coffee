@@ -1,4 +1,5 @@
-{$, $$, View} = require 'atom'
+{View} = require 'atom'
+{$} = require 'space-pen'
 
 module.exports =
   class JekyllStatus extends View

@@ -3,22 +3,26 @@
   "main": "./lib/jekyll",
   "version": "0.4.2",
   "description": "A collection of snippets and tools for Jekyll",
-  "activationEvents": [
-    "jekyll:open-layout",
-    "jekyll:new-post",
-    "jekyll:open-config",
-    "jekyll:open-include",
-    "jekyll:open-data",
-    "jekyll:manage",
-    "jekyll:toolbar",
-    "jekyll:toggle-server"
-  ],
+  "activationCommands": {
+    "atom-workspace": [
+      "jekyll:open-layout",
+      "jekyll:new-post",
+      "jekyll:open-config",
+      "jekyll:open-include",
+      "jekyll:open-data",
+      "jekyll:manage",
+      "jekyll:toolbar",
+      "jekyll:toggle-server"
+    ]
+  },
   "repository": "https://github.com/arcath/jekyll-atom",
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": "*"
   },
   "dependencies": {
-    "fs-plus": "^2.0.4"
+    "fs-plus": "^2.0.4",
+    "temp": "~0.6.0",
+    "space-pen": "^4"
   }
 }

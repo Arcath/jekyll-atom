@@ -1,4 +1,5 @@
-{$, $$, TextEditorView, View, Emitter} = require 'atom'
+{TextEditorView, View, Emitter} = require 'atom'
+{$} = require 'space-pen'
 
 module.exports =
   class JekyllManagerView extends View

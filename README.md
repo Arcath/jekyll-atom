@@ -1,7 +1,5 @@
 # Jekyll-Atom
 
-[![Code Climate](https://codeclimate.com/github/Arcath/jekyll-atom/badges/gpa.svg)](https://codeclimate.com/github/Arcath/jekyll-atom)
-
 A collection of snippets and tools for [Jekyll] in [Atom]
 
 [![Jekyll Logo](https://raw.githubusercontent.com/Arcath/jekyll-atom/master/images/jekyll.png)](http://jekyllrb.com)
