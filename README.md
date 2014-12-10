@@ -1,4 +1,4 @@
-# Jekyll-Atom
+# Jekyll-Atom [![Build Status](https://travis-ci.org/Arcath/jekyll-atom.svg?branch=master)](https://travis-ci.org/Arcath/jekyll-atom)
 
 A collection of snippets and tools for [Jekyll] in [Atom]
 
