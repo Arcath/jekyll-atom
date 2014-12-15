@@ -12,7 +12,8 @@
       "jekyll:open-data",
       "jekyll:manage",
       "jekyll:toolbar",
-      "jekyll:toggle-server"
+      "jekyll:toggle-server",
+      "jekyll:new-post"
     ]
   },
   "repository": "https://github.com/arcath/jekyll-atom",

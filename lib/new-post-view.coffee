@@ -14,16 +14,19 @@ class JekyllNewPostView extends View
       @div class: 'error-message', outlet: 'errorMessage'
 
   initialize: ->
-    #atom.workspaceView.command "jekyll:new-post", => @toggle()
-    @on 'core:confirm', => @onConfirm(@miniEditor.getText())
-    @on 'core:cancel', => @destroy()
+    atom.commands.add @element,
+      'core:confirm': => @onConfirm(@miniEditor.getText())
+      'core:cancel': => @destroy()
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
 
-  # Tear down any state and detach
+  attach: ->
+    @panel = atom.workspace.addModalPanel(item: this)
+
   destroy: ->
-    @detach()
+    @panel.destroy()
+    atom.workspace.getActivePane().activate()
 
   toggle: ->
     if @hasParent()
@@ -40,8 +43,7 @@ class JekyllNewPostView extends View
     titleName = title.toLowerCase().replace(/[^\w\s]|_/g, "").replace(RegExp(" ", 'g'),"-")
     return @generateDateString() + "-" + titleName
 
-  generateDateString: ->
-    currentTime = new Date()
+  generateDateString: (currentTime = new Date())->
     return currentTime.getFullYear() + "-" + ("0" + (currentTime.getMonth() + 1)).slice(-2) + "-" + ("0" + currentTime.getDate()).slice(-2)
 
   onConfirm: (title) ->
@@ -60,8 +62,8 @@ class JekyllNewPostView extends View
           @showError("File names must not end with a '/' character.")
         else
           fs.writeFileSync(pathToCreate, @fileContents(title, dateString))
-          atom.project.getRepo()?.getPathStatus(pathToCreate)
-          atom.workspaceView.open(pathToCreate)
+          #atom.project.getRepo()?.getPathStatus(pathToCreate)
+          atom.workspace.open(pathToCreate)
           @destroy()
     catch error
       @showError("#{error.message}.")
