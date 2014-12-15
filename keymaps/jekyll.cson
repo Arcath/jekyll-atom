@@ -8,9 +8,11 @@
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
 '.workspace':
-  'cmd-alt-l': 'jekyll:open-layout'
   'cmd-alt-j': 'jekyll:new-post'
-  'cmd-shift-i': 'jekyll:open-include'
-  'cmd-alt-d': 'jekyll:open-data'
   'cmd-alt-t': 'jekyll:toolbar'
   'alt-shift-t': 'jekyll:toggle-server'
+
+'atom-text-editor':
+  'cmd-alt-l': 'jekyll:open-layout'
+  'cmd-shift-i': 'jekyll:open-include'
+  'cmd-alt-d': 'jekyll:open-data'
