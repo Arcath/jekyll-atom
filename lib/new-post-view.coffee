@@ -1,20 +1,20 @@
-{View, EditorView} = require 'atom'
+{TextEditorView} = require 'atom-space-pen-views'
 path = require 'path'
 fs = require 'fs-plus'
 os = require 'os'
 
-{$} = require 'space-pen'
+{$, View} = require 'space-pen'
 
 module.exports =
 class JekyllNewPostView extends View
   @content: ->
     @div class: 'jekyll-new-post overlay from-top', =>
       @label "Post Title", class: 'icon icon-file-add', outlet: 'promptText'
-      @subview 'miniEditor', new EditorView(mini: true)
+      @subview 'miniEditor', new TextEditorView(mini: true)
       @div class: 'error-message', outlet: 'errorMessage'
 
-  initialize: (serializeState) ->
-    atom.workspaceView.command "jekyll:new-post", => @toggle()
+  initialize: ->
+    #atom.workspaceView.command "jekyll:new-post", => @toggle()
     @on 'core:confirm', => @onConfirm(@miniEditor.getText())
     @on 'core:cancel', => @destroy()
 

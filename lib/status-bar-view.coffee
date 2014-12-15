@@ -1,10 +1,9 @@
-{View} = require 'atom'
-{$} = require 'space-pen'
+{$, View} = require 'space-pen'
 
 module.exports =
   class JekyllStatus extends View
     @content: ->
-      @div class:'inline-block', =>
+      @div class:'inline-block jekyll-status-text', =>
         @span click: 'openToolbar', id: 'jekyllStatusLink', "Jekyll Server"
 
     initialize: (emitter) ->

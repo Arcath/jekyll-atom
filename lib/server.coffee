@@ -26,12 +26,13 @@ module.exports =
         return @process.pid
 
     status: ->
-      if @pid() == 0
-        status = 'Off'
-      else
-        status = 'On'
+      @emitter.emit 'jekyll:server-status-reply', @rawStatus()
 
-      @emitter.emit 'jekyll:server-status-reply', status
+    rawStatus: ->
+      if @pid() == 0
+        return 'Off'
+      else
+        return 'On'
 
     version: ->
       versionCommand = atom.config.get('jekyll.jekyllBinary') + " -v"
@@ -66,6 +67,11 @@ module.exports =
 
       @process = null
       @status()
+
+    deactivate: ->
+      if @process
+        @process.kill("SIGTERM")
+        @process = null
 
     preFillConsole: ->
       @emitter.emit 'jekyll:console-fill', JekyllServer.consoleLog

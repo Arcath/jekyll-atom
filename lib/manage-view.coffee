@@ -1,4 +1,4 @@
-{ScrollView} = require 'atom'
+{ScrollView} = require 'atom-space-pen-views'
 {$} = require 'space-pen'
 
 module.exports =
@@ -37,7 +37,7 @@ class ManagerView extends ScrollView
     @bindEmitters()
 
   getInfo: ->
-    @jekyllPWD.html atom.project.getPath()
+    @jekyllPWD.html atom.project.getPaths()[0]
 
   afterAttach: ->
     @emitter.emit 'jekyll:pre-fill-console'
@@ -53,7 +53,7 @@ class ManagerView extends ScrollView
 
   bindEvents: ->
     @openConfig.on 'click', ->
-      atom.workspaceView.open("_config.yml")
+      atom.workspace.open("_config.yml")
 
     @openDocs.on 'click', ->
       require('shell').openExternal('http://jekyllrb.com/docs/home/')

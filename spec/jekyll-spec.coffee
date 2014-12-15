@@ -2,51 +2,62 @@ path = require 'path'
 fs = require 'fs-plus'
 temp = require 'temp'
 
-describe 'Jekyll', ->
-  describe 'Before Activation', ->
-    [workspaceElement] = []
+describe 'Jekyll-Atom', ->
+  [workspaceElement, editor, editorView, activationPromise] = []
 
-    beforeEach ->
-      directory = temp.mkdirSync()
-      atom.project.setPaths([directory])
+  getToolbar = ->
+    workspaceElement.querySelector('.jekyll-manager-panel')
 
-      workspaceElement = atom.views.getView(atom.workspace)
-      atom.__workspaceView = {}
+  getStatusText = ->
+    workspaceElement.querySelector('.jekyll-status-text')
 
-    it 'should not have a status bar item', ->
-      expect(workspaceElement.querySelector('#jekyllStatusLink')).toBe null
+  beforeEach ->
+    expect(atom.packages.isPackageActive('jekyll')).toBe false
 
-    it 'should not be active', ->
-      expect(atom.packages.isPackageActive('jekyll')).toBe false
+    atom.project.setPaths([path.join(__dirname, 'sample')])
 
-  describe 'After Activation', ->
-    [workspaceElement, activationPromise] = []
+    workspaceElement = atom.views.getView(atom.workspace)
+    #atom.__workspaceView = workspaceElement
 
-    beforeEach ->
-      directory = temp.mkdirSync()
-      atom.project.setPaths([directory])
+    waitsForPromise ->
+      atom.workspace.open('index.html')
 
-      workspaceElement = atom.views.getView(atom.workspace)
-      atom.__workspaceView = {}
+    runs ->
+      editor = atom.workspace.getActiveTextEditor()
+      editorView = atom.views.getView(editor)
 
       activationPromise = atom.packages.activatePackage('jekyll')
       activationPromise.fail (reason) ->
-        console.log reason
+        throw reason
+
+  describe 'Before Activation', ->
+    it 'should not be active', ->
+      expect(atom.packages.isPackageActive('jekyll')).toBe false
+
+  describe 'when the toolbar is triggered', ->
+    it 'should be active', ->
+      atom.commands.dispatch editorView, 'jekyll:toolbar'
 
       waitsForPromise ->
         activationPromise
 
-    it 'should have activated', ->
       runs ->
         expect(atom.packages.isPackageActive('jekyll')).toBe true
 
-    it 'should have added an item to the status bar', ->
-      runs ->
-        expect(workspaceElement.querySelector('#jekyllStatusLink')).not.toBe null
+    it 'should have the toolbar open', ->
+      atom.commands.dispatch editorView, 'jekyll:toolbar'
 
-    describe 'when the toolbar is opened', ->
-      it 'should put the toolbar in the bottom panel', ->
-        atom.commands.dispatch editorView, 'jekyll:toolbar'
+      waitsForPromise ->
+        activationPromise.then ({mainModule}) ->
+          expect(mainModule.toolbarView).not.toBe null
+          expect(mainModule.toolbarPanel.isVisible()).toBe true
 
-        runs ->
-          expect(workspaceElement.querySelector('.jekyll-manager-panel')).toBeDefined()
+
+  describe 'when the manage view is opened', ->
+    it 'should have opened', ->
+      atom.commands.dispatch editorView, 'jekyll:manage'
+
+      waitsForPromise ->
+        activationPromise
+
+  describe 'the open config command', ->

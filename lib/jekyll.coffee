@@ -10,15 +10,33 @@ JekyllStatusBar = require './status-bar-view'
 module.exports =
   jekyllNewPostView: null
 
-  configDefaults:
-    layoutsDir: "_layouts/"
-    layoutsType: ".html"
-    postsDir: "_posts/"
-    postsType: ".markdown"
-    includesDir: "_includes/"
-    dataDir: "_data/"
-    serverOptions: ["serve", "-w"]
-    jekyllBinary: "jekyll"
+  config:
+    layoutsDir:
+      type: 'string'
+      default: '_layouts/'
+    layoutsType:
+      type: 'string'
+      default: '.html'
+    postsDir:
+      type: 'string'
+      default: '_posts/'
+    postsType:
+      type: 'string'
+      default: '.markdown'
+    includesDir:
+      type: 'string'
+      default: '_includes/'
+    dataDir:
+      type: 'string'
+      default: '_data/'
+    jekyllBinary:
+      type: 'string'
+      default: 'jekyll'
+    serverOptions:
+      type: 'array'
+      default: ['serve', '-w']
+      items:
+        type: 'string'
 
   activate: ->
     atom.commands.add 'atom-workspace', "jekyll:open-layout", => @openLayout()
@@ -35,15 +53,14 @@ module.exports =
 
     @registerOpenView()
 
-    atom.workspaceView.statusBar?.appendRight(new JekyllStatusBar(JekyllEmitter))
+    atom.workspace.statusBar?.appendRight(new JekyllStatusBar(JekyllEmitter))
 
   deactivate: ->
-    @jekyllNewPostView.destroy()
-    @jekyllServer.stop()
+    @jekyllServer.deactivate()
 
   serialize: ->
-    jekyllNewPostViewState: @jekyllNewPostView.serialize()
-    JekyllEmitter.emit 'jekyll:stop-server'
+    #jekyllNewPostViewState: @jekyllNewPostView.serialize()
+    #JekyllEmitter.emit 'jekyll:stop-server'
 
   showError: (message) ->
     console.log(message)
@@ -77,12 +94,12 @@ module.exports =
 
     try
       data = @scan(line, /site\.data\.(.*?) /g)[0][0].split(" ")[0]
-      atom.workspaceView.open(atom.config.get('jekyll.dataDir') + data + ".yml")
+      atom.workspace.open(atom.config.get('jekyll.dataDir') + data + ".yml")
     catch error
       @showError(error.message)
 
   manage: ->
-    atom.workspaceView.open('atom://jekyll')
+    atom.workspace.open('atom://jekyll')
 
   toolbar: ->
     if @toolbarView
@@ -103,7 +120,7 @@ module.exports =
     return results
 
   registerOpenView: ->
-    atom.workspace.registerOpener (uri) ->
+    atom.workspace.addOpener (uri) ->
       if uri is 'atom://jekyll'
         return new JekyllManageView(JekyllEmitter)
 

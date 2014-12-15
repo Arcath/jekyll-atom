@@ -1,5 +1,5 @@
-{TextEditorView, View, Emitter} = require 'atom'
-{$} = require 'space-pen'
+{Emitter} = require 'atom'
+{$, View} = require 'space-pen'
 
 module.exports =
   class JekyllManagerView extends View
@@ -8,7 +8,7 @@ module.exports =
 
         @div class: 'block', =>
           @span id: 'jekyllVersion', outlet: 'jekyllVersion', 'Jekyll 0.0.0'
-          @span id: 'jekyllPWD', outlet: 'jekyllPWD', ' in ' + atom.project.getPath()
+          @span id: 'jekyllPWD', outlet: 'jekyllPWD', ' in ' + atom.project.getPaths()[0]
           @div class: 'buttons', =>
             @div class: 'btn-group', =>
               @button class: 'btn', id: 'toggleButton', outlet: 'toggleButton', click: 'toggleServer', 'Loading...'
@@ -16,13 +16,12 @@ module.exports =
               @button class: 'btn', click: 'hidePanel', 'Close'
 
         @div class: 'block', =>
-          @pre outlet: 'jtconsole', id: 'jtconsole'
+          @pre outlet: 'console', id: 'jtconsole'
 
     initialize: (emitter) ->
       @emitter = emitter
 
       @getVersion()
-      @bindEvents()
 
     setPanel: (panel) ->
       @panel = panel
@@ -38,7 +37,7 @@ module.exports =
 
     refresh: ->
       @initToggleButton()
-      $('#jtconsole').animate({"scrollTop": $('#jtconsole')[0].scrollHeight}, "fast")
+      @console.animate({"scrollTop": @console.scrollHeight}, "fast")
 
     initConsole: ->
       @emitter.on 'jekyll:console-message', (message) ->
@@ -53,9 +52,6 @@ module.exports =
           $('#toggleButton').html('Stop Server')
 
       @emitter.emit 'jekyll:server-status'
-
-    bindEvents: ->
-      @on 'core:cancel core:close', => @panel?.hide()
 
     getVersion: ->
       @emitter.emit 'jekyll:version'
