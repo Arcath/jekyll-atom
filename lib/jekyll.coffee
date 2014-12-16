@@ -52,6 +52,10 @@ module.exports =
     @jekyllServer = new JekyllServer
     @jekyllServer.activate(JekyllEmitter)
 
+    @toolbarView = new JekyllToolbarView(JekyllEmitter)
+    @toolbarPanel = atom.workspace.addBottomPanel(item: @toolbarView, visible: false, className: 'tool-panel panel-bottom')
+    @toolbarView.setPanel @toolbarPanel
+
     @registerOpenView()
 
     atom.workspace.statusBar?.appendRight(new JekyllStatusBar(JekyllEmitter))
@@ -103,13 +107,8 @@ module.exports =
     atom.workspace.open('atom://jekyll')
 
   toolbar: ->
-    if @toolbarView
-      @toolbarPanel.show()
-      @toolbarView.refresh()
-    else
-      @toolbarView = new JekyllToolbarView(JekyllEmitter)
-      @toolbarPanel = atom.workspace.addBottomPanel(item: @toolbarView, visible: true, className: 'tool-panel panel-bottom')
-      @toolbarView.setPanel @toolbarPanel
+    @toolbarPanel.show()
+    @toolbarView.refresh()
 
   scan: (string, pattern) ->
     matches = []

@@ -1,6 +1,4 @@
 path = require 'path'
-fs = require 'fs-plus'
-temp = require 'temp'
 
 describe 'Jekyll-Atom', ->
   [workspaceElement, editor, editorView, activationPromise] = []
@@ -33,31 +31,3 @@ describe 'Jekyll-Atom', ->
   describe 'Before Activation', ->
     it 'should not be active', ->
       expect(atom.packages.isPackageActive('jekyll')).toBe false
-
-  describe 'when the toolbar is triggered', ->
-    it 'should be active', ->
-      atom.commands.dispatch editorView, 'jekyll:toolbar'
-
-      waitsForPromise ->
-        activationPromise
-
-      runs ->
-        expect(atom.packages.isPackageActive('jekyll')).toBe true
-
-    it 'should have the toolbar open', ->
-      atom.commands.dispatch editorView, 'jekyll:toolbar'
-
-      waitsForPromise ->
-        activationPromise.then ({mainModule}) ->
-          expect(mainModule.toolbarView).not.toBe null
-          expect(mainModule.toolbarPanel.isVisible()).toBe true
-
-
-  describe 'when the manage view is opened', ->
-    it 'should have opened', ->
-      atom.commands.dispatch editorView, 'jekyll:manage'
-
-      waitsForPromise ->
-        activationPromise
-
-  describe 'the open config command', ->
