@@ -46,6 +46,7 @@ module.exports =
 
       @process = childProcess.spawn atom.config.get('jekyll.jekyllBinary'), atom.config.get('jekyll.serverOptions'), {cwd: @pwd}
       @process.stdout.setEncoding('utf8')
+      @emitter.emit 'jekyll:log-pid', @process.pid
 
       @status()
 
@@ -91,5 +92,7 @@ module.exports =
     toggle: ->
       if @pid() is 0
         @start()
+        atom.notifications.addSuccess('Jekyll Server Started')
       else
         @stop()
+        atom.notifications.addSuccess('Jekyll Server Stopped')
