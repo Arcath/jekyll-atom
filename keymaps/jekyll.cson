@@ -7,7 +7,7 @@
 
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
-'.workspace':
+'.atom-workspace':
   'cmd-alt-j': 'jekyll:new-post'
   'cmd-alt-t': 'jekyll:toolbar'
   'alt-shift-t': 'jekyll:toggle-server'
