@@ -1,5 +1,6 @@
 {Emitter} = require 'atom'
 path = require 'path'
+fs = require 'fs-plus'
 
 describe 'Jekyll Server', ->
   [jekyllServer, emitter, reply, activationPromise, editor, editorView] = []
@@ -94,3 +95,19 @@ describe 'Jekyll Server', ->
           expect(jekyllServer.rawStatus()).toBe 'On'
           jekyllServer.toggle()
           expect(jekyllServer.rawStatus()).toBe 'Off'
+
+  describe 'Site Building', ->
+    it 'should build the site', ->
+      waitsFor ->
+        jekyllServer.rawStatus() == 'Off'
+
+      runs ->
+        testPath = atom.project.resolve('_site/index.html')
+
+        fs.unlinkSync(testPath) if fs.existsSync(testPath)
+
+        expect(fs.existsSync(testPath)).toBe false
+
+        jekyllServer.buildSite()
+
+        expect(fs.existsSync(testPath)).toBe true

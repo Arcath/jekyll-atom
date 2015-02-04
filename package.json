@@ -13,7 +13,8 @@
       "jekyll:manage",
       "jekyll:toolbar",
       "jekyll:toggle-server",
-      "jekyll:new-post"
+      "jekyll:new-post",
+      "jekyll:build-site"
     ]
   },
   "repository": "https://github.com/arcath/jekyll-atom",

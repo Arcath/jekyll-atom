@@ -47,6 +47,7 @@ module.exports =
     atom.commands.add 'atom-workspace', "jekyll:toolbar", => @toolbar()
     atom.commands.add 'atom-workspace', "jekyll:toggle-server", => @toggleServer()
     atom.commands.add 'atom-workspace', 'jekyll:new-post', => @newPost()
+    atom.commands.add 'atom-workspace', 'jekyll:build-site', => @buildSite()
 
     @jekyllNewPostView = new JekyllNewPostView()
     @jekyllServer = new JekyllServer
@@ -130,3 +131,6 @@ module.exports =
   newPost: ->
     @jekyllNewPostView.attach()
     @jekyllNewPostView.miniEditor.focus()
+
+  buildSite: ->
+    JekyllEmitter.emit 'jekyll:build-site'
