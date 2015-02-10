@@ -50,7 +50,7 @@ module.exports =
 
       @process.on 'error', (error) ->
         if error.code is 'ENOENT'
-          atom.notifications.addError('Jekyll Binary Incorrect', {detail: "The Jekyll Binary #{error.path} is not valid. Please go into Settings and change it"})
+          atom.notifications.addError('Jekyll Binary Incorrect', {detail: "The Jekyll Binary #{error.path} is not valid.\r\nPlease go into Settings and change it"})
         else
           throw error
 
