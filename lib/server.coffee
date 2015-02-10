@@ -48,6 +48,12 @@ module.exports =
       @process.stdout.setEncoding('utf8')
       @emitter.emit 'jekyll:log-pid', @process.pid
 
+      @process.on 'error', (error) ->
+        if error.code is 'ENOENT'
+          atom.notifications.addError('Jekyll Binary Incorrect', {detail: "The Jekyll Binary #{error.path} is not valid. Please go into Settings and change it"})
+        else
+          throw error
+
       @status()
 
       @process.stdout.on 'data', (data) ->
