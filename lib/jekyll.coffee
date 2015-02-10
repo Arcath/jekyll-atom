@@ -50,10 +50,14 @@ module.exports =
     atom.commands.add 'atom-workspace', 'jekyll:build-site', => @buildSite()
 
     @jekyllNewPostView = new JekyllNewPostView()
-    @jekyllServer = new JekyllServer
-    @jekyllServer.activate(JekyllEmitter)
 
-    @toolbarView = new JekyllToolbarView(JekyllEmitter)
+    if typeof @jekyllServer is 'undefined'
+      @jekyllServer = new JekyllServer
+      @jekyllServer.activate(JekyllEmitter)
+
+    if typeof @toolbarView is 'undefined'
+      @toolbarView = new JekyllToolbarView(JekyllEmitter)
+
     @toolbarPanel = atom.workspace.addBottomPanel(item: @toolbarView, visible: false, className: 'tool-panel panel-bottom')
     @toolbarView.setPanel @toolbarPanel
 

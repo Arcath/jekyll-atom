@@ -22,11 +22,11 @@ module.exports =
       @emitter = emitter
 
       @getVersion()
+      @initConsole()
 
     setPanel: (panel) ->
       @panel = panel
       @initToggleButton() # We do this here because now the button exists on screen
-      @initConsole()
 
     hidePanel: ->
       @panel.hide()
