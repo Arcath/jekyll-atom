@@ -11,12 +11,17 @@ class JekyllNewPostView extends View
     @div class: 'jekyll-new-post overlay from-top', =>
       @label "Post Title", class: 'icon icon-file-add', outlet: 'promptText'
       @subview 'miniEditor', new TextEditorView(mini: true)
+      @label "Draft"
+      @input type: 'checkbox', outlet: 'draftCheckbox', checked: atom.config.get('jekyll.draftByDefault')
+      @button outlet: 'createButton', 'Create'
       @div class: 'error-message', outlet: 'errorMessage'
 
   initialize: ->
     atom.commands.add @element,
       'core:confirm': => @onConfirm(@miniEditor.getText())
       'core:cancel': => @destroy()
+
+    @createButton.on 'click', => @onConfirm(@miniEditor.getText())
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
@@ -39,17 +44,22 @@ class JekyllNewPostView extends View
     @errorMessage.text(error)
     @flashError() if error
 
-  generateFileName: (title) ->
+  generateFileName: (title, draft) ->
     titleName = title.toLowerCase().replace(/[^\w\s]|_/g, "").replace(RegExp(" ", 'g'),"-")
-    return @generateDateString() + "-" + titleName
+    title = titleName
+    title = @generateDateString() + "-" + titleName unless draft
+    return title
 
   generateDateString: (currentTime = new Date())->
     return currentTime.getFullYear() + "-" + ("0" + (currentTime.getMonth() + 1)).slice(-2) + "-" + ("0" + currentTime.getDate()).slice(-2)
 
   onConfirm: (title) ->
-    fileName = @generateFileName(title)
-    dateString = @generateDateString()
-    relativePath = atom.config.get('jekyll.postsDir') + fileName + atom.config.get('jekyll.postsType')
+    draft = !!@draftCheckbox.prop('checked')
+    fileName = @generateFileName(title, draft)
+    if draft
+      relativePath = atom.config.get('jekyll.draftsDir') + fileName + atom.config.get('jekyll.postsType')
+    else
+      relativePath = atom.config.get('jekyll.postsDir') + fileName + atom.config.get('jekyll.postsType')
     endsWithDirectorySeparator = /\/$/.test(relativePath)
     pathToCreate = atom.project.getDirectories()[0]?.resolve(relativePath)
     return unless pathToCreate
@@ -61,7 +71,7 @@ class JekyllNewPostView extends View
         if endsWithDirectorySeparator
           @showError("File names must not end with a '/' character.")
         else
-          fs.writeFileSync(pathToCreate, @fileContents(title, dateString))
+          fs.writeFileSync(pathToCreate, @fileContents(title, @generateDateString()))
           #atom.project.getRepo()?.getPathStatus(pathToCreate)
           atom.workspace.open(pathToCreate)
           @destroy()

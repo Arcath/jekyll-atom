@@ -37,6 +37,12 @@ module.exports =
       default: ['serve', '-w']
       items:
         type: 'string'
+    draftByDefault:
+      type: 'boolean'
+      default: false
+    draftsDir:
+      type: 'string'
+      default: '_drafts/'
 
   activate: ->
     atom.commands.add 'atom-workspace', "jekyll:open-layout", => @openLayout()
