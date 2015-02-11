@@ -110,4 +110,8 @@ describe 'Jekyll Server', ->
 
         jekyllServer.buildSite()
 
-        expect(fs.existsSync(testPath)).toBe true
+        waitsFor ->
+          fs.existsSync(testPath) is true
+
+        runs ->
+          expect(fs.existsSync(testPath)).toBe true
