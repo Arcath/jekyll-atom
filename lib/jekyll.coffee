@@ -76,30 +76,30 @@ module.exports =
     console.log(message)
 
   openLayout: ->
-    activeEditor = atom.workspace.getActiveEditor()
+    activeEditor = atom.workspace.getActiveTextEditor()
     contents = activeEditor.getText()
 
     try
       layout = @scan(contents, /layout: (.*?)[\r\n|\n\r|\r|\n]/g)[0][0]
-      atom.workspaceView.open(atom.config.get('jekyll.layoutsDir') + layout + atom.config.get('jekyll.layoutsType'))
+      atom.workspace.open(atom.config.get('jekyll.layoutsDir') + layout + atom.config.get('jekyll.layoutsType'))
     catch error
       @showError(error.message)
 
   openInclude: ->
-    activeEditor = atom.workspace.getActiveEditor()
+    activeEditor = atom.workspace.getActiveTextEditor()
     line = activeEditor.getCursor().getCurrentBufferLine()
 
     try
       include = @scan(line, /{% include (.*?)%}/g)[0][0].split(" ")[0]
-      atom.workspaceView.open(atom.config.get('jekyll.includesDir') + include)
+      atom.workspace.open(atom.config.get('jekyll.includesDir') + include)
     catch error
       @showError(error.message)
 
   openConfig: ->
-    atom.workspaceView.open("_config.yml")
+    atom.workspace.open("_config.yml")
 
   openData: ->
-    activeEditor = atom.workspace.getActiveEditor()
+    activeEditor = atom.workspace.getActiveTextEditor()
     line = activeEditor.getCursor().getCurrentBufferLine()
 
     try

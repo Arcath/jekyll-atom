@@ -31,3 +31,32 @@ describe 'Jekyll-Atom', ->
   describe 'Before Activation', ->
     it 'should not be active', ->
       expect(atom.packages.isPackageActive('jekyll')).toBe false
+
+  describe 'Buffer Functions', ->
+    beforeEach ->
+      atom.project.setPaths([path.join(__dirname, 'sample')])
+
+    it 'should open a layout', ->
+      waitsForPromise ->
+        atom.workspace.open('index.html')
+
+      runs ->
+        relativePath = atom.workspace.getActiveTextEditor().buffer.file.path.replace(path.join(__dirname, 'sample'), '')
+
+        expect(relativePath).toBe '/index.html'
+        expect(atom.workspace.getTextEditors().length).toBe 1
+
+        atom.commands.dispatch editorView, 'jekyll:open-layout'
+
+        waitsForPromise ->
+          activationPromise
+
+        runs ->
+          waitsFor ->
+            atom.workspace.getTextEditors().length is 2
+
+          runs ->
+            relativePath = atom.workspace.getActiveTextEditor().buffer.file.path.replace(path.join(__dirname, 'sample'), '')
+
+            expect(relativePath).toBe '/_layouts/default.html'
+            expect(atom.workspace.getTextEditors().length).toBe 2
