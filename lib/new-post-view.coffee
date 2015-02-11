@@ -51,7 +51,7 @@ class JekyllNewPostView extends View
     dateString = @generateDateString()
     relativePath = atom.config.get('jekyll.postsDir') + fileName + atom.config.get('jekyll.postsType')
     endsWithDirectorySeparator = /\/$/.test(relativePath)
-    pathToCreate = atom.project.resolve(relativePath)
+    pathToCreate = atom.project.getDirectories()[0]?.resolve(relativePath)
     return unless pathToCreate
 
     try

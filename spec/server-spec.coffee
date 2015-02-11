@@ -102,7 +102,7 @@ describe 'Jekyll Server', ->
         jekyllServer.rawStatus() == 'Off'
 
       runs ->
-        testPath = atom.project.resolve('_site/index.html')
+        testPath = atom.project.getDirectories()[0]?.resolve('_site/index.html')
 
         fs.unlinkSync(testPath) if fs.existsSync(testPath)
 

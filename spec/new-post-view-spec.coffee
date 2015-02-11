@@ -48,7 +48,7 @@ describe 'Jekyll New Post View', ->
         dialog = $(atom.workspace.getModalPanels()[0].getItem()).view()
         titleName = dialog.generateFileName('Jekyll New Post')
         fileName = atom.config.get('jekyll.postsDir') + titleName + atom.config.get('jekyll.postsType')
-        pathToCreate = atom.project.resolve(fileName)
+        pathToCreate = atom.project.getDirectories()[0]?.resolve(fileName)
 
         fs.unlinkSync(pathToCreate) if fs.existsSync(pathToCreate)
 
@@ -89,7 +89,7 @@ describe 'Jekyll New Post View', ->
         dialog = $(atom.workspace.getModalPanels()[0].getItem()).view()
         titleName = dialog.generateFileName('Jekyll New Post')
         fileName = atom.config.get('jekyll.postsDir') + titleName + atom.config.get('jekyll.postsType')
-        pathToCreate = atom.project.resolve(fileName)
+        pathToCreate = atom.project.getDirectories()[0]?.resolve(fileName)
 
         fs.unlinkSync(pathToCreate) if fs.existsSync(pathToCreate)
 
