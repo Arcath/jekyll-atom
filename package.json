@@ -14,7 +14,8 @@
       "jekyll:toolbar",
       "jekyll:toggle-server",
       "jekyll:new-post",
-      "jekyll:build-site"
+      "jekyll:build-site",
+      "jekyll:publish-draft"
     ]
   },
   "repository": "https://github.com/arcath/jekyll-atom",

@@ -1,3 +1,5 @@
+fs = require 'fs-plus'
+
 {Emitter} = require 'atom'
 JekyllEmitter = new Emitter
 
@@ -54,6 +56,7 @@ module.exports =
     atom.commands.add 'atom-workspace', "jekyll:toggle-server", => @toggleServer()
     atom.commands.add 'atom-workspace', 'jekyll:new-post', => @newPost()
     atom.commands.add 'atom-workspace', 'jekyll:build-site', => @buildSite()
+    atom.commands.add 'atom-workspace', 'jekyll:publish-draft', => @publishDraft()
 
     @jekyllNewPostView = new JekyllNewPostView()
 
@@ -144,3 +147,34 @@ module.exports =
 
   buildSite: ->
     JekyllEmitter.emit 'jekyll:build-site'
+
+  publishDraft: ->
+    activeEditor = atom.workspace.getActiveTextEditor()
+    activeEditor.save()
+
+    currentFilePath = activeEditor?.buffer?.file?.path
+    currentFileName = currentFilePath.split("/").reverse()[0]
+
+    newFileName = @generateFileName(@getPostTitle(activeEditor))
+    newFilePath = currentFilePath.replace(atom.config.get('jekyll.draftsDir') + currentFileName, atom.config.get('jekyll.postsDir') + newFileName) + atom.config.get('jekyll.postsType')
+
+    contents = activeEditor.getText()
+    newContents = contents.replace(/date: "[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}"/, "date: \"#{@generateDateString()}\"")
+
+    fs.writeFileSync(newFilePath, newContents)
+    fs.unlinkSync(currentFilePath)
+
+    atom.workspace.open(newFilePath)
+    activeEditor.destroy()
+
+  getPostTitle: (editor) ->
+    contents = editor.getText()
+
+    title = @scan(contents, /title: (.*?)[\r\n|\n\r|\r|\n]/g)[0][0]
+
+  generateFileName: (title) ->
+    titleString = title.toLowerCase().replace(/[^\w\s]|_/g, "").replace(RegExp(" ", 'g'),"-")
+    return @generateDateString() + '-' + titleString
+
+  generateDateString: (currentTime = new Date()) ->
+    return currentTime.getFullYear() + "-" + ("0" + (currentTime.getMonth() + 1)).slice(-2) + "-" + ("0" + currentTime.getDate()).slice(-2)
