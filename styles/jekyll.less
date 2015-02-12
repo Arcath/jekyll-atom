@@ -1,21 +1,20 @@
+@import "ui-variables";
+
 .jekyll-manager-panel{
-  background-size:contain;
-  background-repeat:no-repeat;
-  background-image:url(atom://jekyll/images/jekyll.png);
-  background-position:left;
   overflow:auto;
 
   .block{
     float:left;
     clear:left;
     margin-bottom:5px;
-    padding-left:260px;
+    padding-left:10px;
     padding-right:10px;
     overflow:auto;
     width:100%;
 
-    span{
-      padding-top:15px;
+    p{
+      margin:5px;
+      float:left;
     }
   }
 
@@ -23,9 +22,56 @@
     float:right;
     margin-right:10px;
   }
+}
 
-  pre{
-    height:90px;
+.jekyll-manager{
+  position:relative;
+
+  .controls{
+    position:absolute;
+    top:0px;
+    width:100%;
+    background-color:@pane-item-background-color;
+    padding:10px;
+    overflow:auto;
+    z-index:10;
+
+    .left-buttons{
+      float:left;
+    }
+
+    .right-buttons{
+      float:right;
+    }
+  }
+
+  .console{
+    width:100%;
+    padding-top:50px;
+    padding-bottom:40px;
+    z-index:5;
     overflow-y:scroll;
+    position:absolute;
+    top:0;
+    bottom:0;
+  }
+
+  .info{
+    width:100%;
+    background-color:@pane-item-background-color;
+    padding:10px;
+    overflow:auto;
+    position:absolute;
+    bottom:0px;
+    color:@text-color-highlight;
+    z-index:10;
+
+    .left-info{
+      float:left;
+    }
+
+    .right-info{
+      float:right;
+    }
   }
 }

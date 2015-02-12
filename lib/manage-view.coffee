@@ -4,23 +4,25 @@
 module.exports =
 class ManagerView extends ScrollView
   @content: ->
-    @div class: "jekyll-manager-view pane-item", tabindex: -1, =>
-      @div class: "controls", =>
-        @div class: "jekyll-logo"
-        @button class: "btn btn-primary button icon icon-tools", outlet: "openConfig", "Open Config"
-        @button class: "btn btn-primary button icon icon-repo", outlet: "openDocs", "View Documentation"
-        @div class: "heading icon icon-server", "Server"
-        @button class: "btn btn-primary button icon icon-playback-play", click: 'startServer', "Start Server"
-        @button class: "btn btn-primary button icon icon-primitive-square", click: 'stopServer', "Stop Server"
-        @div class: "heading icon icon-device-desktop", "Site"
-        @button class: "btn btn-primary button icon icon-sync", outlet: "regenSite", click: 'buildSite', "Build"
-      @div class: 'main', =>
-        @div class: 'jekyll-status-bar', outlet: "statusBar", =>
-          @div class: 'jekyll-version', outlet: "jekyllVersion"
-          @div class: 'pwd', outlet: "jekyllPWD"
-          @div class: 'server-status', outlet: "serverStatus", "Server Status: ", =>
-            @span class: 'highlight-error', "Off"
-        @pre class: 'console', outlet: "console"
+    @div class: 'jekyll-manager', =>
+      @div class: 'controls', =>
+        @div class: 'left-buttons btn-group', =>
+          @button class: 'btn btn-primary icon icon-tools', outlet: 'openConfig', "Open Config"
+          @button class: "btn btn-primary button icon icon-repo", outlet: "openDocs", "View Documentation"
+        @div class: 'right-buttons btn-group', =>
+          @button class: "btn btn-primary button icon icon-playback-play", click: 'startServer', "Start Server"
+          @button class: "btn btn-primary button icon icon-primitive-square", click: 'stopServer', "Stop Server"
+          @button class: "btn btn-primary button icon icon-sync", outlet: "regenSite", click: 'buildSite', "Build"
+      @pre class: 'console', outlet: 'console'
+      @div class: 'info', =>
+        @div class: 'left-info', =>
+          @span class: 'jekyll-version', outlet: "jekyllVersion"
+          @span ' in '
+          @span class: 'pwd', outlet: "jekyllPWD"
+        @div class: 'right-info', =>
+          @div class: 'server-status', outlet: "serverStatus", =>
+            @span class: 'highlight-error', "Server Off"
+
 
   getTitle: ->
     'Jekyll Manager'
@@ -39,12 +41,12 @@ class ManagerView extends ScrollView
   getInfo: ->
     @jekyllPWD.html atom.project.getPaths()[0]
 
-  afterAttach: ->
+  attached: ->
     @emitter.emit 'jekyll:pre-fill-console'
     @emitter.emit 'jekyll:server-status'
     @emitter.emit 'jekyll:version'
 
-  beforeRemove: ->
+  detached: ->
     @versionEmitter.dispose()
     @statusEmitter.dispose()
     @consoleFillEmitter.dispose()
@@ -65,11 +67,11 @@ class ManagerView extends ScrollView
 
     @statusEmitter = @emitter.on 'jekyll:server-status-reply', (status) ->
       if status == 'Off'
-        $('.server-status span').html("Off")
+        $('.server-status span').html("Server Off")
         $('.server-status span').addClass("highlight-error")
         $('.server-status span').removeClass("highlight-success")
       else
-        $('.server-status span').html("Running")
+        $('.server-status span').html("Server Running")
         $('.server-status span').addClass("highlight-success")
         $('.server-status span').removeClass("highlight-error")
 

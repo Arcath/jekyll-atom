@@ -7,22 +7,19 @@ module.exports =
       @div tabindex: -1, class: 'jekyll-manager-panel', =>
 
         @div class: 'block', =>
-          @span id: 'jekyllVersion', outlet: 'jekyllVersion', 'Jekyll 0.0.0'
-          @span id: 'jekyllPWD', outlet: 'jekyllPWD', ' in ' + atom.project.getPaths()[0]
+          @p =>
+            @span id: 'jekyllVersion', outlet: 'jekyllVersion', 'Jekyll 0.0.0'
+            @span id: 'jekyllPWD', outlet: 'jekyllPWD', ' in ' + atom.project.getPaths()[0]
           @div class: 'buttons', =>
             @div class: 'btn-group', =>
               @button class: 'btn', id: 'toggleButton', outlet: 'toggleButton', click: 'toggleServer', 'Loading...'
               @button class: 'btn', click: 'openFull', 'Full View'
               @button class: 'btn', click: 'hidePanel', 'Close'
 
-        @div class: 'block', =>
-          @pre outlet: 'console', id: 'jtconsole'
-
     initialize: (emitter) ->
       @emitter = emitter
 
       @getVersion()
-      @initConsole()
 
     setPanel: (panel) ->
       @panel = panel
@@ -37,12 +34,6 @@ module.exports =
 
     refresh: ->
       @initToggleButton()
-      @console.animate({"scrollTop": @console.scrollHeight}, "fast")
-
-    initConsole: ->
-      @emitter.on 'jekyll:console-message', (message) ->
-        $('#jtconsole').append(message)
-        $('#jtconsole').animate({"scrollTop": $('#jtconsole')[0].scrollHeight}, "fast")
 
     initToggleButton: ->
       @emitter.on 'jekyll:server-status-reply', (status) ->
