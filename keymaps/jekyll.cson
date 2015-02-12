@@ -7,12 +7,22 @@
 
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
-'atom-workspace':
+'.platform-darwin atom-workspace':
   'cmd-alt-j': 'jekyll:new-post'
   'cmd-alt-t': 'jekyll:toolbar'
   'alt-shift-t': 'jekyll:toggle-server'
 
-'atom-text-editor':
+'.platform-darwin atom-text-editor':
   'cmd-alt-l': 'jekyll:open-layout'
   'cmd-shift-i': 'jekyll:open-include'
   'cmd-alt-d': 'jekyll:open-data'
+
+'.platform-win32 atom-workspace, .platform-linux atom-workspace':
+  'ctrl-alt-j': 'jekyll:new-post'
+  'ctrl-alt-t': 'jekyll:toolbar'
+  'alt-shift-t': 'jekyll:toggle-server'
+
+'.platform-win32 atom-text-editor, .platform-linux atom-text-editor':
+  'ctrl-alt-l': 'jekyll:open-layout'
+  'ctrl-shift-i': 'jekyll:open-include'
+  'ctrl-alt-d': 'jekyll:open-data'
