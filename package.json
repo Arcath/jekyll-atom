@@ -1,7 +1,7 @@
 {
   "name": "jekyll",
   "main": "./lib/jekyll",
-  "version": "0.6.0",
+  "version": "0.5.0",
   "description": "A collection of snippets and tools for Jekyll",
   "activationCommands": {
     "atom-workspace": [
