@@ -7,6 +7,7 @@ JekyllNewPostView = require './new-post-view'
 JekyllToolbarView = require './toolbar-view'
 
 Builder = require './server/build'
+Server = require './server/server'
 
 module.exports =
   jekyllNewPostView: null
@@ -33,18 +34,13 @@ module.exports =
     jekyllBinary:
       type: 'string'
       default: 'jekyll'
-    serverOptions:
-      type: 'array'
-      default: ['serve', '-w']
-      items:
-        type: 'string'
     draftByDefault:
       type: 'boolean'
       default: false
     draftsDir:
       type: 'string'
       default: '_drafts/'
-    expressPort:
+    serverPort:
       type: 'integer'
       default: 3000
     buildCommand:
@@ -52,13 +48,15 @@ module.exports =
       default: ['jekyll', 'build']
       items:
         type: 'string'
+    siteDir:
+      type: 'string'
+      default: '_site/'
 
   activate: ->
     atom.commands.add 'atom-workspace', "jekyll:open-layout", => @openLayout()
     atom.commands.add 'atom-workspace', "jekyll:open-config", => @openConfig()
     atom.commands.add 'atom-workspace', "jekyll:open-include", => @openInclude()
     atom.commands.add 'atom-workspace', "jekyll:open-data", => @openData()
-    atom.commands.add 'atom-workspace', "jekyll:manage", => @manage()
     atom.commands.add 'atom-workspace', "jekyll:toolbar", => @toolbar()
     atom.commands.add 'atom-workspace', "jekyll:toggle-server", => @toggleServer()
     atom.commands.add 'atom-workspace', 'jekyll:new-post', => @newPost()
@@ -76,6 +74,7 @@ module.exports =
     atom.workspace.statusBar?.appendRight(new JekyllStatusBar(JekyllEmitter))
 
   deactivate: ->
+    Server.stop()
 
   serialize: ->
     #jekyllNewPostViewState: @jekyllNewPostView.serialize()
@@ -134,7 +133,7 @@ module.exports =
     return results
 
   toggleServer: ->
-    JekyllEmitter.emit 'jekyll:toggle-server'
+    Server.toggle()
 
   newPost: ->
     @jekyllNewPostView.attach()
