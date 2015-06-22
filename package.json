@@ -25,8 +25,9 @@
   },
   "dependencies": {
     "fs-plus": "^2.0.4",
-    "temp": "~0.6.0",
+    "temp": "~0.8.3",
     "space-pen": "^4",
-    "atom-space-pen-views": "^0"
+    "atom-space-pen-views": "^2.0.5",
+    "express": "^4.13.0"
   }
 }

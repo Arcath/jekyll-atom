@@ -12,7 +12,7 @@ class JekyllNewPostView extends View
       @label "Post Title", class: 'icon icon-file-add', outlet: 'promptText'
       @subview 'miniEditor', new TextEditorView(mini: true)
       @label "Draft"
-      @input type: 'checkbox', outlet: 'draftCheckbox', checked: atom.config.get('jekyll.draftByDefault')
+      @input type: 'checkbox', outlet: 'draftCheckbox'
       @button outlet: 'createButton', 'Create'
       @div class: 'error-message', outlet: 'errorMessage'
 

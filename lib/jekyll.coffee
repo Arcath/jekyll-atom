@@ -5,9 +5,6 @@ JekyllEmitter = new Emitter
 
 JekyllNewPostView = require './new-post-view'
 JekyllToolbarView = require './toolbar-view'
-JekyllManageView = require './manage-view'
-JekyllServer = require './server'
-JekyllStatusBar = require './status-bar-view'
 
 module.exports =
   jekyllNewPostView: null
@@ -45,6 +42,12 @@ module.exports =
     draftsDir:
       type: 'string'
       default: '_drafts/'
+    jekyllBuildCommand:
+      type: 'string'
+      default: 'jekyll build'
+    expressPort:
+      type: 'integer'
+      default: 3000
 
   activate: ->
     atom.commands.add 'atom-workspace', "jekyll:open-layout", => @openLayout()
@@ -60,10 +63,6 @@ module.exports =
 
     @jekyllNewPostView = new JekyllNewPostView()
 
-    if typeof @jekyllServer is 'undefined'
-      @jekyllServer = new JekyllServer
-      @jekyllServer.activate(JekyllEmitter)
-
     if typeof @toolbarView is 'undefined'
       @toolbarView = new JekyllToolbarView(JekyllEmitter)
 
@@ -75,7 +74,6 @@ module.exports =
     atom.workspace.statusBar?.appendRight(new JekyllStatusBar(JekyllEmitter))
 
   deactivate: ->
-    @jekyllServer.deactivate()
 
   serialize: ->
     #jekyllNewPostViewState: @jekyllNewPostView.serialize()

@@ -43,7 +43,9 @@ describe 'Jekyll-Atom', ->
       runs ->
         relativePath = atom.workspace.getActiveTextEditor().buffer.file.path.replace(path.join(__dirname, 'sample'), '')
 
-        expect(relativePath).toBe '/index.html'
+        console.dir relativePath
+
+        expect(relativePath.replace('\\', '/')).toBe '/index.html'
         expect(atom.workspace.getTextEditors().length).toBe 1
 
         atom.commands.dispatch editorView, 'jekyll:open-layout'
@@ -58,5 +60,5 @@ describe 'Jekyll-Atom', ->
           runs ->
             relativePath = atom.workspace.getActiveTextEditor().buffer.file.path.replace(path.join(__dirname, 'sample'), '')
 
-            expect(relativePath).toBe '/_layouts/default.html'
+            expect(relativePath.replace(/\\/g, '/')).toBe '/_layouts/default.html'
             expect(atom.workspace.getTextEditors().length).toBe 2
