@@ -6,6 +6,8 @@ JekyllEmitter = new Emitter
 JekyllNewPostView = require './new-post-view'
 JekyllToolbarView = require './toolbar-view'
 
+Builder = require './server/build'
+
 module.exports =
   jekyllNewPostView: null
 
@@ -42,12 +44,14 @@ module.exports =
     draftsDir:
       type: 'string'
       default: '_drafts/'
-    jekyllBuildCommand:
-      type: 'string'
-      default: 'jekyll build'
     expressPort:
       type: 'integer'
       default: 3000
+    buildCommand:
+      type: 'array'
+      default: ['jekyll', 'build']
+      items:
+        type: 'string'
 
   activate: ->
     atom.commands.add 'atom-workspace', "jekyll:open-layout", => @openLayout()
@@ -68,8 +72,6 @@ module.exports =
 
     @toolbarPanel = atom.workspace.addBottomPanel(item: @toolbarView, visible: false, className: 'tool-panel panel-bottom')
     @toolbarView.setPanel @toolbarPanel
-
-    @registerOpenView()
 
     atom.workspace.statusBar?.appendRight(new JekyllStatusBar(JekyllEmitter))
 
@@ -131,11 +133,6 @@ module.exports =
 
     return results
 
-  registerOpenView: ->
-    atom.workspace.addOpener (uri) ->
-      if uri is 'atom://jekyll'
-        return new JekyllManageView(JekyllEmitter)
-
   toggleServer: ->
     JekyllEmitter.emit 'jekyll:toggle-server'
 
@@ -144,7 +141,7 @@ module.exports =
     @jekyllNewPostView.miniEditor.focus()
 
   buildSite: ->
-    JekyllEmitter.emit 'jekyll:build-site'
+    Builder.build()
 
   publishDraft: ->
     activeEditor = atom.workspace.getActiveTextEditor()
