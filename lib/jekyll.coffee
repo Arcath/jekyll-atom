@@ -77,8 +77,7 @@ module.exports =
     Server.stop()
 
   serialize: ->
-    #jekyllNewPostViewState: @jekyllNewPostView.serialize()
-    #JekyllEmitter.emit 'jekyll:stop-server'
+    Server.stop()
 
   showError: (message) ->
     console.log(message)
@@ -121,7 +120,7 @@ module.exports =
 
   toolbar: ->
     @toolbarPanel.show()
-    @toolbarView.refresh()
+    @toolbarView.refresh(Server)
 
   scan: (string, pattern) ->
     matches = []
