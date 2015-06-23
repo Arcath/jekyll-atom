@@ -31,9 +31,6 @@ module.exports =
     dataDir:
       type: 'string'
       default: '_data/'
-    jekyllBinary:
-      type: 'string'
-      default: 'jekyll'
     draftByDefault:
       type: 'boolean'
       default: false
