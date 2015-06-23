@@ -5,9 +5,9 @@ JekyllEmitter = new Emitter
 
 JekyllNewPostView = require './new-post-view'
 JekyllToolbarView = require './toolbar-view'
-JekyllManageView = require './manage-view'
-JekyllServer = require './server'
-JekyllStatusBar = require './status-bar-view'
+
+Builder = require './server/build'
+Server = require './server/server'
 
 module.exports =
   jekyllNewPostView: null
@@ -31,27 +31,29 @@ module.exports =
     dataDir:
       type: 'string'
       default: '_data/'
-    jekyllBinary:
-      type: 'string'
-      default: 'jekyll'
-    serverOptions:
-      type: 'array'
-      default: ['serve', '-w']
-      items:
-        type: 'string'
     draftByDefault:
       type: 'boolean'
       default: false
     draftsDir:
       type: 'string'
       default: '_drafts/'
+    serverPort:
+      type: 'integer'
+      default: 3000
+    buildCommand:
+      type: 'array'
+      default: ['jekyll', 'build']
+      items:
+        type: 'string'
+    siteDir:
+      type: 'string'
+      default: '_site/'
 
   activate: ->
     atom.commands.add 'atom-workspace', "jekyll:open-layout", => @openLayout()
     atom.commands.add 'atom-workspace', "jekyll:open-config", => @openConfig()
     atom.commands.add 'atom-workspace', "jekyll:open-include", => @openInclude()
     atom.commands.add 'atom-workspace', "jekyll:open-data", => @openData()
-    atom.commands.add 'atom-workspace', "jekyll:manage", => @manage()
     atom.commands.add 'atom-workspace', "jekyll:toolbar", => @toolbar()
     atom.commands.add 'atom-workspace', "jekyll:toggle-server", => @toggleServer()
     atom.commands.add 'atom-workspace', 'jekyll:new-post', => @newPost()
@@ -60,26 +62,19 @@ module.exports =
 
     @jekyllNewPostView = new JekyllNewPostView()
 
-    if typeof @jekyllServer is 'undefined'
-      @jekyllServer = new JekyllServer
-      @jekyllServer.activate(JekyllEmitter)
-
     if typeof @toolbarView is 'undefined'
       @toolbarView = new JekyllToolbarView(JekyllEmitter)
 
     @toolbarPanel = atom.workspace.addBottomPanel(item: @toolbarView, visible: false, className: 'tool-panel panel-bottom')
     @toolbarView.setPanel @toolbarPanel
 
-    @registerOpenView()
-
     atom.workspace.statusBar?.appendRight(new JekyllStatusBar(JekyllEmitter))
 
   deactivate: ->
-    @jekyllServer.deactivate()
+    Server.stop()
 
   serialize: ->
-    #jekyllNewPostViewState: @jekyllNewPostView.serialize()
-    #JekyllEmitter.emit 'jekyll:stop-server'
+    Server.stop()
 
   showError: (message) ->
     console.log(message)
@@ -122,7 +117,7 @@ module.exports =
 
   toolbar: ->
     @toolbarPanel.show()
-    @toolbarView.refresh()
+    @toolbarView.refresh(Server)
 
   scan: (string, pattern) ->
     matches = []
@@ -133,20 +128,15 @@ module.exports =
 
     return results
 
-  registerOpenView: ->
-    atom.workspace.addOpener (uri) ->
-      if uri is 'atom://jekyll'
-        return new JekyllManageView(JekyllEmitter)
-
   toggleServer: ->
-    JekyllEmitter.emit 'jekyll:toggle-server'
+    Server.toggle()
 
   newPost: ->
     @jekyllNewPostView.attach()
     @jekyllNewPostView.miniEditor.focus()
 
   buildSite: ->
-    JekyllEmitter.emit 'jekyll:build-site'
+    Builder.build()
 
   publishDraft: ->
     activeEditor = atom.workspace.getActiveTextEditor()

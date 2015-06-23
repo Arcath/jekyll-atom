@@ -37,18 +37,3 @@ describe 'Jekyll Toolbar View', ->
 
     it 'should attach itself to the bottom', ->
       expect(toolbar).toExist()
-
-    it 'should write messages to the console', ->
-      spy = jasmine.createSpy()
-
-      toolbar.console.html('Test...')
-      toolbar.emitter.on 'jekyll:console-message', spy
-
-      toolbar.emitter.emit 'jekyll:console-message', 'Successful'
-
-      waitsFor ->
-        spy.callCount > 0
-
-      runs ->
-        expect(spy.callCount).toBe 1
-        expect(toolbar.console.html()).not.toBe 'Test...'

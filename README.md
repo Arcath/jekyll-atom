@@ -1,4 +1,4 @@
-# Jekyll-Atom [![Build Status](https://travis-ci.org/Arcath/jekyll-atom.svg?branch=master)](https://travis-ci.org/Arcath/jekyll-atom)
+# Jekyll-Atom [![Build Status](https://travis-ci.org/Arcath/jekyll-atom.svg?branch=master)](https://travis-ci.org/Arcath/jekyll-atom) [![Dependency Status](https://david-dm.org/arcath/jekyll-atom.svg)](https://david-dm.org/arcath/jekyll-atom)
 
 A collection of snippets and tools for [Jekyll] in [Atom]
 
@@ -20,19 +20,21 @@ Jekyll-Atom has a few settings that can be set through the [Atom] settings.
 
 `Data Dir` The path to your data, defaults to `_data/`
 
-`Server Options` The options passed to the Jekyll command to run your server, defaults to `serve, -w`
+`Sites Dir` The path to the compiled site, defaults to `_site/`
 
-`Jekyll Binary` The command needed to run Jekyll, defaults to `jekyll` use `which jekyll` to find out where your command is stored (might be needed when using rbenv/rvm etc...)
+`Server Port` The port used by [static-server](https://github.com/nbluis/static-server), defaults to `3000`
+
+`Build Command` An array containing the command to build a site, defaults to `jekyll, build`
 
 # Usage
 
 ## Server Management
 
-Jeykll-Atom can run your Jekyll Server right in Atom!
-
-Both the toolbar (`Cmd-Alt-T`) and the management window (_Jekyll: Mange_ in the Command Palette) have a console for the stdout output and buttons to control the server.
+Jekyll-Atom can host a server to preview your site!
 
 The server runs in the background and can be started/stopped from anywhere using the Toggle Server command `Alt-Shift-T`.
+
+Whilst running any time you save in Atom your site will be built and available on the port you set in config.
 
 ## Functions
 

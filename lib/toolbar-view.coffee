@@ -12,8 +12,7 @@ module.exports =
             @span id: 'jekyllPWD', outlet: 'jekyllPWD', ' in ' + atom.project.getPaths()[0]
           @div class: 'buttons', =>
             @div class: 'btn-group', =>
-              @button class: 'btn', id: 'toggleButton', outlet: 'toggleButton', click: 'toggleServer', 'Loading...'
-              @button class: 'btn', click: 'openFull', 'Full View'
+              @button class: 'btn', id: 'toggleButton', outlet: 'toggleButton', click: 'toggleServer', 'Start/Stop Server'
               @button class: 'btn', click: 'hidePanel', 'Close'
 
     initialize: (emitter) ->
@@ -23,26 +22,11 @@ module.exports =
 
     setPanel: (panel) ->
       @panel = panel
-      @initToggleButton() # We do this here because now the button exists on screen
 
     hidePanel: ->
       @panel.hide()
 
-    openFull: ->
-      @panel.hide()
-      atom.workspaceView.open('atom://jekyll')
-
-    refresh: ->
-      @initToggleButton()
-
-    initToggleButton: ->
-      @emitter.on 'jekyll:server-status-reply', (status) ->
-        if status == 'Off'
-          $('#toggleButton').html('Start Server')
-        else
-          $('#toggleButton').html('Stop Server')
-
-      @emitter.emit 'jekyll:server-status'
+    refresh: (server) ->
 
     getVersion: ->
       @emitter.emit 'jekyll:version'
@@ -50,7 +34,4 @@ module.exports =
         $('#jekyllVersion').html(data)
 
     toggleServer: (event, element) ->
-      if element.html() == 'Start Server'
-        @emitter.emit 'jekyll:start-server'
-      else
-        @emitter.emit 'jekyll:stop-server'
+      atom.packages.getActivePackage('jekyll').mainModule.toggleServer()
