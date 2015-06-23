@@ -4,6 +4,8 @@ module.exports =
   build: ->
     buildCommand = atom.config.get('jekyll.buildCommand')
 
+    atom.notifications.addInfo('Starting Jekyll Site Build')
+
     @buildProcess = childProcess.spawn buildCommand[0], buildCommand[1...], {cwd: atom.project.getPaths()[0]}
 
     @buildProcess.on 'error', (error) ->
