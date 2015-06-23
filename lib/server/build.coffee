@@ -1,6 +1,8 @@
 childProcess = require 'child_process'
 
-module.exports =
+Builder =
+  error: null
+
   build: ->
     buildCommand = atom.config.get('jekyll.buildCommand')
 
@@ -14,8 +16,15 @@ module.exports =
       else
         throw error
 
+    @buildProcess.stdout.on 'data', (data) ->
+      message = data.toString()
+      if message.includes('Error:')
+        Builder.error =  message
+
     @buildProcess.on 'exit', (code, signal) ->
       if code is 0
         atom.notifications.addSuccess('Jekyll site build complete!')
       else
-        atom.notifications.addError('Jekyll site build failed!')
+        atom.notifications.addError('Jekyll site build failed!', {detail: Builder.error})
+
+module.exports = Builder
