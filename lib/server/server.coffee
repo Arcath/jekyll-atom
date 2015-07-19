@@ -35,7 +35,7 @@ module.exports =
     atom.notifications.addInfo 'Jekyll server stopped'
 
   serverStarted: ->
-    atom.notifications.addSuccess 'Jekyll site avliable at http://localhost:' + atom.config.get('jekyll.serverPort')
+    atom.notifications.addSuccess 'Jekyll site available at http://localhost:' + atom.config.get('jekyll.serverPort')
 
     for editor in atom.workspace.getTextEditors()
       @didOpenFile(editor)
