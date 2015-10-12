@@ -43,8 +43,6 @@ describe 'Jekyll-Atom', ->
       runs ->
         relativePath = atom.workspace.getActiveTextEditor().buffer.file.path.replace(path.join(__dirname, 'sample'), '')
 
-        console.dir relativePath
-
         expect(relativePath.replace('\\', '/')).toBe '/index.html'
         expect(atom.workspace.getTextEditors().length).toBe 1
 
