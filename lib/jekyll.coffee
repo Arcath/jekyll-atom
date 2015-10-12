@@ -81,7 +81,10 @@ module.exports =
 
   openLayout: ->
     activeEditor = atom.workspace.getActiveTextEditor()
-    contents = activeEditor.getText()
+    if activeEditor
+      contents = activeEditor.getText()
+    else
+      atom.notifications.addWarning('Could not see Active Editor, do you have an editor open?')
 
     try
       layout = @scan(contents, /layout: (.*?)[\r\n|\n\r|\r|\n]/g)[0][0]
