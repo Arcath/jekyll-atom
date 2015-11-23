@@ -25,8 +25,6 @@ describe 'Jekyll-Atom', ->
       editorView = atom.views.getView(editor)
 
       activationPromise = atom.packages.activatePackage('jekyll')
-      activationPromise.fail (reason) ->
-        throw reason
 
   describe 'Before Activation', ->
     it 'should not be active', ->

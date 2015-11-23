@@ -22,8 +22,6 @@ describe 'Jekyll Toolbar View', ->
 
 
       activationPromise = atom.packages.activatePackage('jekyll')
-      activationPromise.fail (reason) ->
-        throw reason
 
   describe 'The View', ->
     beforeEach ->
