@@ -21,9 +21,6 @@ module.exports =
     postsType:
       type: 'string'
       default: '.markdown'
-    dataDir:
-      type: 'string'
-      default: '_data/'
     draftByDefault:
       type: 'boolean'
       default: false
@@ -81,6 +78,7 @@ module.exports =
       process.jekyllAtom.config = yaml.safeLoad(fs.readFileSync(path.join(atom.project.getPaths()[0], '_config.yml')))
       process.jekyllAtom.config.layouts_dir = './_layouts' unless process.jekyllAtom.config.layouts_dir
       process.jekyllAtom.config.includes_dir = './_includes' unless process.jekyllAtom.config.includes_dir
+      process.jekyllAtom.config.data_dir = './_data' unless process.jekyllAtom.config.data_dir
 
   openLayout: ->
     activeEditor = atom.workspace.getActiveTextEditor()
@@ -131,13 +129,21 @@ module.exports =
 
   openData: ->
     activeEditor = atom.workspace.getActiveTextEditor()
-    line = activeEditor.getCursor().getCurrentBufferLine()
+    buffer = activeEditor.getBuffer()
+    line = buffer.lines[activeEditor.getCursorBufferPosition().row]
 
     try
       data = @scan(line, /site\.data\.(.*?) /g)[0][0].split(" ")[0]
-      atom.workspace.open(atom.config.get('jekyll.dataDir') + data + ".yml")
+      atom.workspace.open(path.join(process.jekyllAtom.config.data_dir, data) + ".yml")
     catch error
-      @showError(error.message)
+      if error.message == "Cannot read property 'data_dir' of undefined"
+        # Just in case we havent read the config yet.
+        setTimeout(->
+          atom.packages.getActivePackage('jekyll').mainModule.openInclude()
+        ,500 )
+
+      else
+        @showError(error.message)
 
   manage: ->
     atom.workspace.open('atom://jekyll')
