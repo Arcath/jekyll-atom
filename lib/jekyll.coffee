@@ -1,4 +1,6 @@
 fs = require 'fs-plus'
+path = require 'path'
+yaml = require 'js-yaml'
 
 {Emitter} = require 'atom'
 JekyllEmitter = new Emitter
@@ -50,6 +52,8 @@ module.exports =
       default: '_site/'
 
   activate: ->
+    process.jekyllAtom = {}
+
     atom.commands.add 'atom-workspace', "jekyll:open-layout", => @openLayout()
     atom.commands.add 'atom-workspace', "jekyll:open-config", => @openConfig()
     atom.commands.add 'atom-workspace', "jekyll:open-include", => @openInclude()
@@ -61,6 +65,7 @@ module.exports =
     atom.commands.add 'atom-workspace', 'jekyll:publish-draft', => @publishDraft()
 
     @jekyllNewPostView = new JekyllNewPostView()
+    @getConfigFromSite()
 
     if typeof @toolbarView is 'undefined'
       @toolbarView = new JekyllToolbarView(JekyllEmitter)
@@ -77,6 +82,13 @@ module.exports =
   showError: (message) ->
     console.log(message)
 
+  getConfigFromSite: ->
+    fs.open(path.join(atom.project.getPaths()[0], '_config.yml'), 'r', (err, fd) => @handleConfigFileOpen(err, fd))
+
+  handleConfigFileOpen: (err, fd) ->
+    unless err
+      process.jekyllAtom.config = yaml.safeLoad(fs.readFileSync(path.join(atom.project.getPaths()[0], '_config.yml')))
+      
   openLayout: ->
     activeEditor = atom.workspace.getActiveTextEditor()
     if activeEditor
