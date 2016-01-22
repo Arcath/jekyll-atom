@@ -68,8 +68,6 @@ module.exports =
     @toolbarPanel = atom.workspace.addBottomPanel(item: @toolbarView, visible: false, className: 'tool-panel panel-bottom')
     @toolbarView.setPanel @toolbarPanel
 
-    atom.workspace.statusBar?.appendRight(new JekyllStatusBar(JekyllEmitter))
-
   deactivate: ->
     Server.stop()
 

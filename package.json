@@ -24,10 +24,11 @@
     "atom": "*"
   },
   "dependencies": {
-    "fs-plus": "^2.0.4",
-    "temp": "~0.8.3",
-    "space-pen": "^5",
     "atom-space-pen-views": "^2.0.5",
-    "static-server": "2.0.0"
+    "fs-plus": "^2.0.4",
+    "js-yaml": "^3.4.5",
+    "space-pen": "^5",
+    "static-server": "2.0.0",
+    "temp": "~0.8.3"
   }
 }
