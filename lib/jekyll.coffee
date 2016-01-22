@@ -15,12 +15,6 @@ module.exports =
   jekyllNewPostView: null
 
   config:
-    layoutsDir:
-      type: 'string'
-      default: '_layouts/'
-    layoutsType:
-      type: 'string'
-      default: '.html'
     postsDir:
       type: 'string'
       default: '_posts/'
@@ -88,7 +82,8 @@ module.exports =
   handleConfigFileOpen: (err, fd) ->
     unless err
       process.jekyllAtom.config = yaml.safeLoad(fs.readFileSync(path.join(atom.project.getPaths()[0], '_config.yml')))
-      
+      process.jekyllAtom.config.layouts_dir = './_layouts' unless process.jekyllAtom.config.layouts_dir
+
   openLayout: ->
     activeEditor = atom.workspace.getActiveTextEditor()
     if activeEditor
@@ -98,9 +93,22 @@ module.exports =
 
     try
       layout = @scan(contents, /layout: (.*?)[\r\n|\n\r|\r|\n]/g)[0][0]
-      atom.workspace.open(atom.config.get('jekyll.layoutsDir') + layout + atom.config.get('jekyll.layoutsType'))
+      fs.readdir process.jekyllAtom.config.layouts_dir, (err, files) ->
+        for file in files
+          parts = file.split(".")
+          if parts[0] == layout
+            fileName = file
+
+        atom.workspace.open(path.join(process.jekyllAtom.config.layouts_dir, fileName))
     catch error
-      @showError(error.message)
+      if error.message == "Cannot read property 'layouts_dir' of undefined"
+        # Just in case we havent read the config yet.
+        setTimeout(->
+          atom.packages.getActivePackage('jekyll').mainModule.openLayout()
+        ,500 )
+
+      else
+        @showError(error.message)
 
   openInclude: ->
     activeEditor = atom.workspace.getActiveTextEditor()
