@@ -21,8 +21,6 @@ describe 'Jekyll New Post View', ->
       editorView = atom.views.getView(editor)
 
       activationPromise = atom.packages.activatePackage('jekyll')
-      activationPromise.fail (reason) ->
-        throw reason
 
 
   describe 'the view', ->
