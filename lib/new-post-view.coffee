@@ -50,8 +50,22 @@ class JekyllNewPostView extends View
     title = @generateDateString() + "-" + titleName unless draft
     return title
 
-  generateDateString: (currentTime = new Date())->
-    return currentTime.getFullYear() + "-" + ("0" + (currentTime.getMonth() + 1)).slice(-2) + "-" + ("0" + currentTime.getDate()).slice(-2)
+  generateDateString: (currentTime = new Date(), showTime = false)->
+    string = currentTime.getFullYear() +
+      "-" +
+      ("0" + (currentTime.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("0" + currentTime.getDate()).slice(-2)
+
+    if showTime
+      string += " " +
+      ("0" + currentTime.getHours()).slice(-2) +
+      ":" +
+      ("0" + currentTime.getMinutes()).slice(-2) +
+      ":" +
+      ("0" + currentTime.getSeconds()).slice(-2)
+
+    return string
 
   onConfirm: (title) ->
     draft = !!@draftCheckbox.prop('checked')
@@ -71,7 +85,7 @@ class JekyllNewPostView extends View
         if endsWithDirectorySeparator
           @showError("File names must not end with a '/' character.")
         else
-          fs.writeFileSync(pathToCreate, @fileContents(title, @generateDateString()))
+          fs.writeFileSync(pathToCreate, @fileContents(title, @generateDateString(new Date(), true)))
           #atom.project.getRepo()?.getPathStatus(pathToCreate)
           atom.workspace.open(pathToCreate)
           @destroy()
