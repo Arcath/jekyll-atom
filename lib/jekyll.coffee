@@ -13,6 +13,7 @@ Server = require './server/server'
 
 module.exports =
   jekyllNewPostView: null
+  disposables: []
 
   config:
     postsDir:
@@ -55,16 +56,19 @@ module.exports =
     @jekyllNewPostView = new JekyllNewPostView()
     @getConfigFromSite()
 
+    JekyllEmitter.on 'config-loaded', => @dispose
+
     if typeof @toolbarView is 'undefined'
       @toolbarView = new JekyllToolbarView(JekyllEmitter)
 
     @toolbarPanel = atom.workspace.addBottomPanel(item: @toolbarView, visible: false, className: 'tool-panel panel-bottom')
     @toolbarView.setPanel @toolbarPanel
 
-  deactivate: ->
-    Server.stop()
+  dispose: ->
+    for disposeable in @disposables
+      disposeable.dispose()
 
-  serialize: ->
+  deactivate: ->
     Server.stop()
 
   showError: (message) ->
@@ -80,31 +84,32 @@ module.exports =
       process.jekyllAtom.config.includes_dir = './_includes' unless process.jekyllAtom.config.includes_dir
       process.jekyllAtom.config.data_dir = './_data' unless process.jekyllAtom.config.data_dir
 
+      JekyllEmitter.emit 'config-loaded', process.jekyllAtom.config
+
+  ifConfigLoaded: (cb) ->
+    if process.jekyllAtom.config
+      cb(process.jekyllAtom.config)
+    else
+      @disposables.push JekyllEmitter.on 'config-loaded', (conf) => cb(conf)
+
   openLayout: ->
     activeEditor = atom.workspace.getActiveTextEditor()
     if activeEditor
       contents = activeEditor.getText()
     else
       atom.notifications.addWarning('Could not see Active Editor, do you have an editor open?')
-
     try
-      layout = @scan(contents, /layout: (.*?)[\r\n|\n\r|\r|\n]/g)[0][0]
-      fs.readdir process.jekyllAtom.config.layouts_dir, (err, files) ->
-        for file in files
-          parts = file.split(".")
-          if parts[0] == layout
-            fileName = file
+      @ifConfigLoaded (conf) ->
+        layout = module.exports.scan(contents, /layout: (.*?)[\r\n|\n\r|\r|\n]/g)[0][0]
+        fs.readdir path.join(atom.project.getPaths()[0], conf.layouts_dir), (err, files) ->
+          for file in files
+            parts = file.split(".")
+            if parts[0] == layout
+              fileName = file
 
-        atom.workspace.open(path.join(process.jekyllAtom.config.layouts_dir, fileName))
+          atom.workspace.open(path.join(process.jekyllAtom.config.layouts_dir, fileName))
     catch error
-      if error.message == "Cannot read property 'layouts_dir' of undefined"
-        # Just in case we havent read the config yet.
-        setTimeout(->
-          atom.packages.getActivePackage('jekyll').mainModule.openLayout()
-        ,500 )
-
-      else
-        @showError(error.message)
+      @showError(error.message)
 
   openInclude: ->
     activeEditor = atom.workspace.getActiveTextEditor()
@@ -112,17 +117,11 @@ module.exports =
     line = buffer.lines[activeEditor.getCursorBufferPosition().row]
 
     try
-      include = @scan(line, /{% include (.*?)%}/g)[0][0].split(" ")[0]
-      atom.workspace.open(path.join(process.jekyllAtom.config.includes_dir, include))
+      @ifConfigLoaded (conf) ->
+        include = module.exports.scan(line, /{% include (.*?)%}/g)[0][0].split(" ")[0]
+        atom.workspace.open(path.join(process.jekyllAtom.config.includes_dir, include))
     catch error
-      if error.message == "Cannot read property 'include_dir' of undefined"
-        # Just in case we havent read the config yet.
-        setTimeout(->
-          atom.packages.getActivePackage('jekyll').mainModule.openInclude()
-        ,500 )
-
-      else
-        @showError(error.message)
+      @showError(error.message)
 
   openConfig: ->
     atom.workspace.open("_config.yml")
@@ -133,17 +132,11 @@ module.exports =
     line = buffer.lines[activeEditor.getCursorBufferPosition().row]
 
     try
-      data = @scan(line, /site\.data\.(.*?) /g)[0][0].split(" ")[0]
-      atom.workspace.open(path.join(process.jekyllAtom.config.data_dir, data) + ".yml")
+      @ifConfigLoaded (conf) ->
+        data = module.exports.scan(line, /site\.data\.(.*?) /g)[0][0].split(" ")[0]
+        atom.workspace.open(path.join(conf.data_dir, data) + ".yml")
     catch error
-      if error.message == "Cannot read property 'data_dir' of undefined"
-        # Just in case we havent read the config yet.
-        setTimeout(->
-          atom.packages.getActivePackage('jekyll').mainModule.openInclude()
-        ,500 )
-
-      else
-        @showError(error.message)
+      @showError(error.message)
 
   manage: ->
     atom.workspace.open('atom://jekyll')
