@@ -27,7 +27,7 @@ module.exports =
     @disposables.push atom.workspace.observeTextEditors (editor) => @didOpenFile(editor)
 
   stop: ->
-    @server.stop()
+    @server?.stop()
     @server = null
     for disposable in @disposables
       disposable.dispose()

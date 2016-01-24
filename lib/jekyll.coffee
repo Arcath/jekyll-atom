@@ -36,9 +36,6 @@ module.exports =
       default: ['jekyll', 'build']
       items:
         type: 'string'
-    siteDir:
-      type: 'string'
-      default: '_site/'
 
   activate: ->
     process.jekyllAtom = {}
@@ -69,7 +66,7 @@ module.exports =
       disposeable.dispose()
 
   deactivate: ->
-    Server.stop()
+      Server.stop()
 
   showError: (message) ->
     console.log(message)
