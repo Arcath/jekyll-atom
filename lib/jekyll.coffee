@@ -163,7 +163,6 @@ module.exports =
 
   buildSite: ->
     @ifConfigLoaded (conf) ->
-      console.dir conf
       Builder.build()
 
   publishDraft: ->
