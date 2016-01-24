@@ -38,7 +38,9 @@ module.exports =
         type: 'string'
 
   activate: ->
-    process.jekyllAtom = {}
+    process.jekyllAtom = {
+      buildCommand: atom.config.get('jekyll.buildCommand')
+    }
 
     atom.commands.add 'atom-workspace', "jekyll:open-layout", => @openLayout()
     atom.commands.add 'atom-workspace', "jekyll:open-config", => @openConfig()
@@ -152,14 +154,17 @@ module.exports =
     return results
 
   toggleServer: ->
-    Server.toggle()
+    @ifConfigLoaded (conf) ->
+      Server.toggle()
 
   newPost: ->
     @jekyllNewPostView.attach()
     @jekyllNewPostView.miniEditor.focus()
 
   buildSite: ->
-    Builder.build()
+    @ifConfigLoaded (conf) ->
+      console.dir conf
+      Builder.build()
 
   publishDraft: ->
     activeEditor = atom.workspace.getActiveTextEditor()
