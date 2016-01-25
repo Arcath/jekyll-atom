@@ -8,18 +8,9 @@ module.exports =
   Emitter: new Emitter()
 
   config:
-    postsDir:
-      type: 'string'
-      default: '_posts/'
-    postsType:
-      type: 'string'
-      default: '.markdown'
     draftByDefault:
       type: 'boolean'
       default: false
-    draftsDir:
-      type: 'string'
-      default: '_drafts/'
     serverPort:
       type: 'integer'
       default: 3000

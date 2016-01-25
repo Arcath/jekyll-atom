@@ -25,9 +25,6 @@ class JekyllNewPostView extends View
 
     @createButton.on 'click', => @onConfirm(@miniEditor.getText())
 
-  # Returns an object that can be retrieved when package is activated
-  serialize: ->
-
   attach: ->
     @panel = atom.workspace.addModalPanel(item: this)
 
@@ -50,9 +47,9 @@ class JekyllNewPostView extends View
     draft = !!@draftCheckbox.prop('checked')
     fileName = Utils.generateFileName(title, draft)
     if draft
-      relativePath = atom.config.get('jekyll.draftsDir') + fileName + atom.config.get('jekyll.postsType')
+      relativePath = path.join('_drafts', fileName + '.markdown')
     else
-      relativePath = atom.config.get('jekyll.postsDir') + fileName + atom.config.get('jekyll.postsType')
+      relativePath = path.join('_posts', fileName + '.markdown')
     endsWithDirectorySeparator = /\/$/.test(relativePath)
     pathToCreate = atom.project.getDirectories()[0]?.resolve(relativePath)
     return unless pathToCreate
