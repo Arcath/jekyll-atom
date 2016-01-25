@@ -63,5 +63,4 @@ module.exports =
 
   getPostTitle: (editor) ->
     contents = editor.getText()
-
-    title = Utils.scan(contents, /title: (.*?)[\r\n|\n\r|\r|\n]/g)[0][0]
+    title = @scan(contents, /title: (.*?)[\r\n|\n\r|\r|\n]/g)[0][0]

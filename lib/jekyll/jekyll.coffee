@@ -87,7 +87,8 @@ module.exports =
     activeEditor = atom.workspace.getActiveTextEditor()
     activeEditor.save()
 
-    currentFilePath = activeEditor?.buffer?.file?.path  currentFileName = currentFilePath.split(path.sep).reverse()[0]
+    currentFilePath = activeEditor?.buffer?.file?.path
+    currentFileName = currentFilePath.split(path.sep).reverse()[0]
 
     newFileName = Utils.generateFileName(Utils.getPostTitle(activeEditor))
     newFilePath = path.join(atom.project.getPaths()[0], '_posts', newFileName + '.markdown')
