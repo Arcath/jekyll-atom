@@ -47,7 +47,7 @@ describe 'Jekyll New Post View', ->
       runs ->
         dialog = $(atom.workspace.getModalPanels()[0].getItem()).view()
         titleName = Utils.generateFileName('Jekyll New Post')
-        fileName = atom.config.get('jekyll.postsDir') + titleName + atom.config.get('jekyll.postsType')
+        fileName = path.join('_posts', titleName + '.markdown')
         pathToCreate = atom.project.getDirectories()[0]?.resolve(fileName)
 
         fs.unlinkSync(pathToCreate) if fs.existsSync(pathToCreate)
@@ -88,7 +88,7 @@ describe 'Jekyll New Post View', ->
       runs ->
         dialog = $(atom.workspace.getModalPanels()[0].getItem()).view()
         titleName = Utils.generateFileName('Jekyll New Post')
-        fileName = atom.config.get('jekyll.postsDir') + titleName + atom.config.get('jekyll.postsType')
+        fileName = path.join('_posts', titleName + '.markdown')
         pathToCreate = atom.project.getDirectories()[0]?.resolve(fileName)
 
         fs.unlinkSync(pathToCreate) if fs.existsSync(pathToCreate)
