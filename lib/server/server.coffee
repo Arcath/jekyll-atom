@@ -17,7 +17,7 @@ module.exports =
   start: ->
     Builder.build()
     @server = new StaticServer({
-      rootPath: path.join(atom.project.getPaths()[0], atom.config.get('jekyll.siteDir')),
+      rootPath: path.join(atom.project.getPaths()[0], process.jekyllAtom.config.destination),
       name: 'jekyll-atom',
       port: atom.config.get('jekyll.serverPort')
     })

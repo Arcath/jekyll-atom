@@ -5,6 +5,8 @@ os = require 'os'
 
 {$, View} = require 'space-pen'
 
+Utils = require './utils'
+
 module.exports =
 class JekyllNewPostView extends View
   @content: ->
@@ -44,32 +46,9 @@ class JekyllNewPostView extends View
     @errorMessage.text(error)
     @flashError() if error
 
-  generateFileName: (title, draft) ->
-    titleName = title.toLowerCase().replace(/[^\w\s]|_/g, "").replace(RegExp(" ", 'g'),"-")
-    title = titleName
-    title = @generateDateString() + "-" + titleName unless draft
-    return title
-
-  generateDateString: (currentTime = new Date(), showTime = false)->
-    string = currentTime.getFullYear() +
-      "-" +
-      ("0" + (currentTime.getMonth() + 1)).slice(-2) +
-      "-" +
-      ("0" + currentTime.getDate()).slice(-2)
-
-    if showTime
-      string += " " +
-      ("0" + currentTime.getHours()).slice(-2) +
-      ":" +
-      ("0" + currentTime.getMinutes()).slice(-2) +
-      ":" +
-      ("0" + currentTime.getSeconds()).slice(-2)
-
-    return string
-
   onConfirm: (title) ->
     draft = !!@draftCheckbox.prop('checked')
-    fileName = @generateFileName(title, draft)
+    fileName = Utils.generateFileName(title, draft)
     if draft
       relativePath = atom.config.get('jekyll.draftsDir') + fileName + atom.config.get('jekyll.postsType')
     else
@@ -85,8 +64,7 @@ class JekyllNewPostView extends View
         if endsWithDirectorySeparator
           @showError("File names must not end with a '/' character.")
         else
-          fs.writeFileSync(pathToCreate, @fileContents(title, @generateDateString(new Date(), true)))
-          #atom.project.getRepo()?.getPathStatus(pathToCreate)
+          fs.writeFileSync(pathToCreate, @fileContents(title, Utils.generateDateString(new Date(), true)))
           atom.workspace.open(pathToCreate)
           @destroy()
     catch error

@@ -1,6 +1,6 @@
 {
   "name": "jekyll",
-  "main": "./lib/jekyll",
+  "main": "./lib/main",
   "version": "1.0.1",
   "description": "A collection of snippets and tools for Jekyll",
   "activationCommands": {
