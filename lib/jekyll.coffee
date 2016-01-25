@@ -170,13 +170,13 @@ module.exports =
     activeEditor.save()
 
     currentFilePath = activeEditor?.buffer?.file?.path
-    currentFileName = currentFilePath.split("/").reverse()[0]
+    currentFileName = currentFilePath.split(path.sep).reverse()[0]
 
     newFileName = @generateFileName(@getPostTitle(activeEditor))
-    newFilePath = currentFilePath.replace(atom.config.get('jekyll.draftsDir') + currentFileName, atom.config.get('jekyll.postsDir') + newFileName) + atom.config.get('jekyll.postsType')
+    newFilePath = path.join(atom.project.getPaths()[0], '_posts', newFileName + '.markdown')
 
     contents = activeEditor.getText()
-    newContents = contents.replace(/date: "[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}"/, "date: \"#{@generateDateString()}\"")
+    newContents = contents.replace(/date: "[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}.*?"/, "date: \"#{@generateDateString(new Date, true)}\"")
 
     fs.writeFileSync(newFilePath, newContents)
     fs.unlinkSync(currentFilePath)
@@ -193,5 +193,19 @@ module.exports =
     titleString = title.toLowerCase().replace(/[^\w\s]|_/g, "").replace(RegExp(" ", 'g'),"-")
     return @generateDateString() + '-' + titleString
 
-  generateDateString: (currentTime = new Date()) ->
-    return currentTime.getFullYear() + "-" + ("0" + (currentTime.getMonth() + 1)).slice(-2) + "-" + ("0" + currentTime.getDate()).slice(-2)
+  generateDateString: (currentTime = new Date(), showTime = false) ->
+    string = currentTime.getFullYear() +
+      "-" +
+      ("0" + (currentTime.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("0" + currentTime.getDate()).slice(-2)
+
+    if showTime
+      string += " " +
+      ("0" + currentTime.getHours()).slice(-2) +
+      ":" +
+      ("0" + currentTime.getMinutes()).slice(-2) +
+      ":" +
+      ("0" + currentTime.getSeconds()).slice(-2)
+
+    return string
