@@ -2,6 +2,8 @@ path = require 'path'
 {$, $$} = require 'atom-space-pen-views'
 fs = require 'fs-plus'
 
+Utils = require '../lib/jekyll/utils'
+
 describe 'Jekyll New Post View', ->
   [activationPromise, editor, editorView] = []
 
@@ -44,8 +46,8 @@ describe 'Jekyll New Post View', ->
 
       runs ->
         dialog = $(atom.workspace.getModalPanels()[0].getItem()).view()
-        titleName = dialog.generateFileName('Jekyll New Post')
-        fileName = atom.config.get('jekyll.postsDir') + titleName + atom.config.get('jekyll.postsType')
+        titleName = Utils.generateFileName('Jekyll New Post')
+        fileName = path.join('_posts', titleName + '.markdown')
         pathToCreate = atom.project.getDirectories()[0]?.resolve(fileName)
 
         fs.unlinkSync(pathToCreate) if fs.existsSync(pathToCreate)
@@ -59,7 +61,7 @@ describe 'Jekyll New Post View', ->
         if fs.existsSync(pathToCreate)
           fileContents = fs.readFileSync(pathToCreate, {encoding: 'UTF-8'})
 
-          expect(fileContents).toBe dialog.fileContents('Jekyll New Post', dialog.generateDateString())
+          expect(fileContents).toBe dialog.fileContents('Jekyll New Post', Utils.generateDateString(new Date(), true))
 
           fs.unlinkSync(pathToCreate)
         else
@@ -74,8 +76,8 @@ describe 'Jekyll New Post View', ->
 
       runs ->
         dialog = $(atom.workspace.getModalPanels()[0].getItem()).view()
-        expect(dialog.generateDateString(new Date(0))).toBe '1970-01-01'
-        expect(dialog.generateFileName('Jekyll New Post')).toBe dialog.generateDateString() + '-jekyll-new-post'
+        expect(Utils.generateDateString(new Date(0))).toBe '1970-01-01'
+        expect(Utils.generateFileName('Jekyll New Post')).toBe Utils.generateDateString() + '-jekyll-new-post'
 
     it 'should create a post', ->
       atom.commands.dispatch editorView, 'jekyll:new-post'
@@ -85,8 +87,8 @@ describe 'Jekyll New Post View', ->
 
       runs ->
         dialog = $(atom.workspace.getModalPanels()[0].getItem()).view()
-        titleName = dialog.generateFileName('Jekyll New Post')
-        fileName = atom.config.get('jekyll.postsDir') + titleName + atom.config.get('jekyll.postsType')
+        titleName = Utils.generateFileName('Jekyll New Post')
+        fileName = path.join('_posts', titleName + '.markdown')
         pathToCreate = atom.project.getDirectories()[0]?.resolve(fileName)
 
         fs.unlinkSync(pathToCreate) if fs.existsSync(pathToCreate)
@@ -98,7 +100,7 @@ describe 'Jekyll New Post View', ->
         if fs.existsSync(pathToCreate)
           fileContents = fs.readFileSync(pathToCreate, {encoding: 'UTF-8'})
 
-          expect(fileContents).toBe dialog.fileContents('Jekyll New Post', dialog.generateDateString())
+          expect(fileContents).toBe dialog.fileContents('Jekyll New Post', Utils.generateDateString(new Date(), true))
 
           fs.unlinkSync(pathToCreate)
         else

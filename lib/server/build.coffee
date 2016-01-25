@@ -4,7 +4,7 @@ Builder =
   error: null
 
   build: ->
-    buildCommand = atom.config.get('jekyll.buildCommand')
+    buildCommand = (process.jekyllAtom.config.atom?.buildCommand || process.jekyllAtom.buildCommand)
 
     atom.notifications.addInfo('Starting Jekyll Site Build')
 

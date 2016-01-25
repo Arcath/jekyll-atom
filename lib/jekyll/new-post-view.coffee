@@ -5,6 +5,8 @@ os = require 'os'
 
 {$, View} = require 'space-pen'
 
+Utils = require './utils'
+
 module.exports =
 class JekyllNewPostView extends View
   @content: ->
@@ -22,9 +24,6 @@ class JekyllNewPostView extends View
       'core:cancel': => @destroy()
 
     @createButton.on 'click', => @onConfirm(@miniEditor.getText())
-
-  # Returns an object that can be retrieved when package is activated
-  serialize: ->
 
   attach: ->
     @panel = atom.workspace.addModalPanel(item: this)
@@ -44,22 +43,13 @@ class JekyllNewPostView extends View
     @errorMessage.text(error)
     @flashError() if error
 
-  generateFileName: (title, draft) ->
-    titleName = title.toLowerCase().replace(/[^\w\s]|_/g, "").replace(RegExp(" ", 'g'),"-")
-    title = titleName
-    title = @generateDateString() + "-" + titleName unless draft
-    return title
-
-  generateDateString: (currentTime = new Date())->
-    return currentTime.getFullYear() + "-" + ("0" + (currentTime.getMonth() + 1)).slice(-2) + "-" + ("0" + currentTime.getDate()).slice(-2)
-
   onConfirm: (title) ->
     draft = !!@draftCheckbox.prop('checked')
-    fileName = @generateFileName(title, draft)
+    fileName = Utils.generateFileName(title, draft)
     if draft
-      relativePath = atom.config.get('jekyll.draftsDir') + fileName + atom.config.get('jekyll.postsType')
+      relativePath = path.join('_drafts', fileName + '.markdown')
     else
-      relativePath = atom.config.get('jekyll.postsDir') + fileName + atom.config.get('jekyll.postsType')
+      relativePath = path.join('_posts', fileName + '.markdown')
     endsWithDirectorySeparator = /\/$/.test(relativePath)
     pathToCreate = atom.project.getDirectories()[0]?.resolve(relativePath)
     return unless pathToCreate
@@ -71,8 +61,7 @@ class JekyllNewPostView extends View
         if endsWithDirectorySeparator
           @showError("File names must not end with a '/' character.")
         else
-          fs.writeFileSync(pathToCreate, @fileContents(title, @generateDateString()))
-          #atom.project.getRepo()?.getPathStatus(pathToCreate)
+          fs.writeFileSync(pathToCreate, @fileContents(title, Utils.generateDateString(new Date(), true)))
           atom.workspace.open(pathToCreate)
           @destroy()
     catch error
