@@ -59,7 +59,7 @@ describe 'Jekyll New Post View', ->
         if fs.existsSync(pathToCreate)
           fileContents = fs.readFileSync(pathToCreate, {encoding: 'UTF-8'})
 
-          expect(fileContents).toBe dialog.fileContents('Jekyll New Post', dialog.generateDateString())
+          expect(fileContents).toBe dialog.fileContents('Jekyll New Post', dialog.generateDateString(new Date(), true))
 
           fs.unlinkSync(pathToCreate)
         else
@@ -98,7 +98,7 @@ describe 'Jekyll New Post View', ->
         if fs.existsSync(pathToCreate)
           fileContents = fs.readFileSync(pathToCreate, {encoding: 'UTF-8'})
 
-          expect(fileContents).toBe dialog.fileContents('Jekyll New Post', dialog.generateDateString())
+          expect(fileContents).toBe dialog.fileContents('Jekyll New Post', dialog.generateDateString(new Date(), true))
 
           fs.unlinkSync(pathToCreate)
         else
