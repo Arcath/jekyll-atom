@@ -8,23 +8,20 @@ A collection of snippets and tools for [Jekyll] in [Atom]
 
 Jekyll-Atom has a few settings that can be set through the [Atom] settings.
 
-`Layouts Dir` The path to your layouts, defaults to `_layouts/`
-
-`Layouts Type` The file type of your layouts, defaults to `.html`
-
-`Posts Dir` The path to your posts, defaults to `_posts/`
-
-`Posts Type` The file type of your posts, defaults to `.markdown`
-
-`Includes Dir` The path to your includes, defaults to `_includes/`
-
-`Data Dir` The path to your data, defaults to `_data/`
-
-`Sites Dir` The path to the compiled site, defaults to `_site/`
-
 `Server Port` The port used by [static-server](https://github.com/nbluis/static-server), defaults to `3000`
 
-`Build Command` An array containing the command to build a site, defaults to `jekyll, build`
+`Build Command` An array containing the default command to build a site, defaults to `jekyll, build`. Can be overridden in your projects `_config.yml` like so:
+
+```yaml
+atom:
+  buildCommand:
+    - jekyll
+    - build
+    - --option
+    - --this
+```
+
+`Draft By Default` whether the draft tick box is ticked by default on the new post screen.
 
 # Usage
 
