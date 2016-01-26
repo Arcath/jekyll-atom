@@ -15,9 +15,7 @@ module.exports =
               @button class: 'btn', id: 'toggleButton', outlet: 'toggleButton', click: 'toggleServer', 'Start/Stop Server'
               @button class: 'btn', click: 'hidePanel', 'Close'
 
-    initialize: (emitter) ->
-      @emitter = emitter
-
+    initialize: (@emitter, @main) ->
       @getVersion()
 
     setPanel: (panel) ->
@@ -34,4 +32,4 @@ module.exports =
         $('#jekyllVersion').html(data)
 
     toggleServer: (event, element) ->
-      atom.packages.getActivePackage('jekyll').mainModule.toggleServer()
+      @main.handleCommand('toggleServer', true, false)

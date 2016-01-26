@@ -36,7 +36,7 @@ module.exports =
     atom.commands.add 'atom-workspace', 'jekyll:publish-draft', => @handleCommand('publishDraft', true, true)
 
     Jekyll.createNewPostView()
-    Jekyll.createToolbarView(@Emitter)
+    Jekyll.createToolbarView(@Emitter, @)
 
     Utils.setMainModule(this)
     Utils.getConfigFromSite()

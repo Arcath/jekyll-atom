@@ -15,9 +15,9 @@ module.exports =
   createNewPostView: ->
     @jekyllNewPostView = new JekyllNewPostView()
 
-  createToolbarView: (emitter) ->
+  createToolbarView: (emitter, main) ->
     if typeof @toolbarView is 'undefined'
-      @toolbarView = new JekyllToolbarView(emitter)
+      @toolbarView = new JekyllToolbarView(emitter, main)
 
     @toolbarPanel = atom.workspace.addBottomPanel(item: @toolbarView, visible: false, className: 'tool-panel panel-bottom')
     @toolbarView.setPanel @toolbarPanel
