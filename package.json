@@ -30,5 +30,11 @@
     "space-pen": "^5",
     "static-server": "2.0.0",
     "temp": "~0.8.3"
-  }
+  },
+  "keywords": [
+    "jekyll",
+    "snippets",
+    "server",
+    "build"
+  ]
 }
