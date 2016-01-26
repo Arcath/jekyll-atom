@@ -8,7 +8,7 @@ Builder =
 
     atom.notifications.addInfo('Starting Jekyll Site Build')
 
-    @buildProcess = childProcess.spawn buildCommand[0], buildCommand[1...], {cwd: atom.project.getPaths()[0]}
+    @buildProcess = childProcess.spawn buildCommand[0], buildCommand[1...], {cwd: atom.project.getPaths()[0], env: process.jekyllAtom.config.atom?.buildEnv}
 
     @buildProcess.on 'error', (error) ->
       if error.code is 'ENOENT'

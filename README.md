@@ -10,7 +10,15 @@ Jekyll-Atom has a few settings that can be set through the [Atom] settings.
 
 `Server Port` The port used by [static-server](https://github.com/nbluis/static-server), defaults to `3000`
 
-`Build Command` An array containing the default command to build a site, defaults to `jekyll, build`. Can be overridden in your projects `_config.yml` like so:
+`Build Command` An array containing the default command to build a site, defaults to `jekyll, build`. Can be overridden in your projects `_config.yml`.
+
+`Draft By Default` whether the draft tick box is ticked by default on the new post screen.
+
+## _config.yml
+
+Jekyll Atom can pickup project specific config from your `_config.yml`.
+
+For Example:
 
 ```yaml
 atom:
@@ -19,9 +27,9 @@ atom:
     - build
     - --option
     - --this
+  buildEnv:
+    JEKYLL_ENV: development
 ```
-
-`Draft By Default` whether the draft tick box is ticked by default on the new post screen.
 
 # Usage
 
