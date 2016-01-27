@@ -5,4 +5,11 @@ notifications:
     on_success: never
     on_failure: never
 
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/10fba1514da1b829fa8b
+    on_success: change
+    on_failure: always
+    on_start: never
+
 script: 'curl -s https://raw.githubusercontent.com/Arcath/jekyll-atom/master/travis.sh | sh'
