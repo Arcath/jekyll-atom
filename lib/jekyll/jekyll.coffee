@@ -4,7 +4,6 @@ path = require 'path'
 Utils = require './utils'
 
 JekyllNewPostView = require './new-post-view'
-JekyllToolbarView = require './toolbar-view'
 
 Builder = require '../server/build'
 Server = require '../server/server'
@@ -14,13 +13,6 @@ module.exports =
 
   createNewPostView: ->
     @jekyllNewPostView = new JekyllNewPostView()
-
-  createToolbarView: (emitter, main) ->
-    if typeof @toolbarView is 'undefined'
-      @toolbarView = new JekyllToolbarView(emitter, main)
-
-    @toolbarPanel = atom.workspace.addBottomPanel(item: @toolbarView, visible: false, className: 'tool-panel panel-bottom')
-    @toolbarView.setPanel @toolbarPanel
 
   showError: (message) ->
     console.log(message)
@@ -65,13 +57,6 @@ module.exports =
       atom.workspace.open(path.join(config.data_dir, data) + ".yml")
     catch error
       @showError(error.message)
-
-  manage: ->
-    atom.workspace.open('atom://jekyll')
-
-  toolbar: ->
-    @toolbarPanel.show()
-    @toolbarView.refresh(Server)
 
   toggleServer: ->
     Server.toggle()

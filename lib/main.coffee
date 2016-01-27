@@ -29,14 +29,12 @@ module.exports =
     atom.commands.add 'atom-workspace', "jekyll:open-config", => @handleCommand('openConfig', false, false)
     atom.commands.add 'atom-workspace', "jekyll:open-include", => @handleCommand('openInclude', true, true)
     atom.commands.add 'atom-workspace', "jekyll:open-data", => @handleCommand('openData', true, true)
-    atom.commands.add 'atom-workspace', "jekyll:toolbar", => @handleCommand('toolbar', false, false)
     atom.commands.add 'atom-workspace', "jekyll:toggle-server", => @handleCommand('toggleServer', true, false)
     atom.commands.add 'atom-workspace', 'jekyll:new-post', => @handleCommand('newPost', false, false)
     atom.commands.add 'atom-workspace', 'jekyll:build-site', => @handleCommand('buildSite', true, false)
     atom.commands.add 'atom-workspace', 'jekyll:publish-draft', => @handleCommand('publishDraft', true, true)
 
     Jekyll.createNewPostView()
-    Jekyll.createToolbarView(@Emitter, @)
 
     Utils.setMainModule(this)
     Utils.getConfigFromSite()

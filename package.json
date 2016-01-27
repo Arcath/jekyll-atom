@@ -10,8 +10,6 @@
       "jekyll:open-config",
       "jekyll:open-include",
       "jekyll:open-data",
-      "jekyll:manage",
-      "jekyll:toolbar",
       "jekyll:toggle-server",
       "jekyll:new-post",
       "jekyll:build-site",
