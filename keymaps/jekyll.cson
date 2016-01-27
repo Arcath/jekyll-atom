@@ -9,7 +9,6 @@
 # https://atom.io/docs/latest/advanced/keymaps
 '.platform-darwin atom-workspace':
   'cmd-alt-j': 'jekyll:new-post'
-  'cmd-alt-t': 'jekyll:toolbar'
   'alt-shift-t': 'jekyll:toggle-server'
 
 '.platform-darwin atom-text-editor':
@@ -19,7 +18,6 @@
 
 '.platform-win32 atom-workspace, .platform-linux atom-workspace':
   'ctrl-alt-j': 'jekyll:new-post'
-  'ctrl-alt-t': 'jekyll:toolbar'
   'alt-shift-t': 'jekyll:toggle-server'
 
 '.platform-win32 atom-text-editor, .platform-linux atom-text-editor':

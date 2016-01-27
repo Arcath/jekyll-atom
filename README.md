@@ -73,8 +73,6 @@ When Triggered this function looks at the text around your cursor to find the da
 
 `Cmd-Alt-J` Create a new post
 
-`Cmd-Alt-T` Open the toolbar
-
 `Alt-Shift-T` Turn the server on/off
 
 ## Snippets
