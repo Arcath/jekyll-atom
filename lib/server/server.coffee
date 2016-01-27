@@ -41,5 +41,7 @@ module.exports =
       @didOpenFile(editor)
 
   didOpenFile: (editor) ->
-    @disposables.push editor.buffer.emitter.on 'did-save', ->
-      Builder.build()
+    @disposables.push editor.buffer.emitter.on 'did-save', => @didSave()
+
+  didSave: ->
+    Builder.build()

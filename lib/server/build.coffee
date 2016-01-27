@@ -4,11 +4,11 @@ Builder =
   error: null
 
   build: ->
-    buildCommand = (process.jekyllAtom.config.atom?.buildCommand || process.jekyllAtom.buildCommand)
+    buildCommand = (process.jekyllAtom.config?.atom?.buildCommand || process.jekyllAtom.buildCommand)
 
     atom.notifications.addInfo('Starting Jekyll Site Build')
 
-    @buildProcess = childProcess.spawn buildCommand[0], buildCommand[1...], {cwd: atom.project.getPaths()[0], env: process.jekyllAtom.config.atom?.buildEnv}
+    @buildProcess = childProcess.spawn buildCommand[0], buildCommand[1...], {cwd: atom.project.getPaths()[0], env: process.jekyllAtom.config?.atom?.buildEnv}
 
     @buildProcess.on 'error', (error) ->
       if error.code is 'ENOENT'
