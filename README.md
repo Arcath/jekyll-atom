@@ -12,6 +12,11 @@ Jekyll-Atom has a few settings that can be set through the [Atom] settings.
 
 `Build Command` An array containing the default command to build a site, defaults to `jekyll, build`. Can be overridden in your projects `_config.yml`.
 
+ - The `Build Command` will most likely need changing due to some weirdness with $PATH in [Atom].
+   - Go into the packages settings (Settings -> Packages -> Jekyll).
+   - Change `Build Command` to `/path/to/jekyll, build`.
+   - You can get your /path/to/jekyll by using `which jekyll` in your terminal.
+
 `Draft By Default` whether the draft tick box is ticked by default on the new post screen.
 
 ## _config.yml
