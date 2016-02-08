@@ -50,6 +50,12 @@ module.exports =
       ":" +
       ("0" + currentTime.getSeconds()).slice(-2)
 
+      timezoneOffset = currentTime.getTimezoneOffset()
+      string += " " +
+      (if timezoneOffset <= 0 then "+" else "-") +
+      ("0" + Math.floor(Math.abs(timezoneOffset) / 60)).slice(-2) +
+      ("0" + Math.abs(timezoneOffset) % 60).slice(-2)
+
     return string
 
   scan: (string, pattern) ->
