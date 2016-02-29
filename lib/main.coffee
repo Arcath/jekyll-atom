@@ -25,6 +25,9 @@ module.exports =
       buildCommand: atom.config.get('jekyll.buildCommand')
     }
 
+    unless atom.packages.isPackageLoaded('language-liquid')
+      atom.notifications.addWarning('Jekyll', {detail: 'Please install the language-liquid package to get full syntax highlighting'})
+
     atom.commands.add 'atom-workspace', "jekyll:open-layout", => @handleCommand('openLayout', true, true)
     atom.commands.add 'atom-workspace', "jekyll:open-config", => @handleCommand('openConfig', false, false)
     atom.commands.add 'atom-workspace', "jekyll:open-include", => @handleCommand('openInclude', true, true)
