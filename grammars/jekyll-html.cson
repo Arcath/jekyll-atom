@@ -1,4 +1,4 @@
-'scopeName': 'text.hmtl.jekyll'
+'scopeName': 'text.html.jekyll'
 'name': 'Jekyll (HTML)'
 'fileTypes': [
   'html'
