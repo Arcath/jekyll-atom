@@ -1,0 +1,25 @@
+'scopeName': 'text.xml.jekyll'
+'name': 'Jekyll (XML)'
+'fileTypes': [
+  'xml'
+  'atom'
+  'svg'
+]
+'firstLineMatch': '^---$'
+'patterns': [
+  {
+    'include': 'text.xml'
+  }
+  {
+    'include': 'text.html.liquid'
+  }
+  {
+    'begin': '---'
+    'end': '---'
+    'patterns': [
+      {
+        'include': 'source.yaml'
+      }
+    ]
+  }
+]
