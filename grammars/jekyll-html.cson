@@ -1,0 +1,23 @@
+'scopeName': 'text.html.jekyll'
+'name': 'Jekyll (HTML)'
+'fileTypes': [
+  'html'
+]
+'firstLineMatch': '^---$'
+'patterns': [
+  {
+    'include': 'text.html.basic'
+  }
+  {
+    'include': 'text.html.liquid'
+  }
+  {
+    'begin': '---'
+    'end': '---'
+    'patterns': [
+      {
+        'include': 'source.yaml'
+      }
+    ]
+  }
+]

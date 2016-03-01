@@ -1,0 +1,23 @@
+'scopeName': 'source.json.jekyll'
+'name': 'Jekyll (JSON)'
+'fileTypes': [
+  'json'
+]
+'firstLineMatch': '^---$'
+'patterns': [
+  {
+    'include': 'text.html.liquid'
+  }
+  {
+    'begin': '---'
+    'end': '---'
+    'patterns': [
+      {
+        'include': 'source.yaml'
+      }
+    ]
+  }
+  {
+    'include': 'source.json'
+  }
+]
