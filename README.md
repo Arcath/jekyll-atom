@@ -48,7 +48,7 @@ Whilst running any time you save in Atom your site will be built and available o
 
 ## Grammars
 
-Jekyll-Atom adds 3 language grammars to Atom `Jekyll (HTML)`, `Jekyll (XML)` and `Jekyll (JSON)`. All 3 add Liquid and YAML highlighting to thier respective format.
+Jekyll-Atom adds 3 language grammars to Atom `Jekyll (HTML)`, `Jekyll (XML)` and `Jekyll (JSON)`. All 3 add Liquid and YAML highlighting to their respective format.
 
 > Liquid Highlighting requires the [language-liquid](https://atom.io/packages/language-liquid) package to be installed.
 
