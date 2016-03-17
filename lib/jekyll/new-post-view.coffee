@@ -47,9 +47,9 @@ class JekyllNewPostView extends View
     draft = !!@draftCheckbox.prop('checked')
     fileName = Utils.generateFileName(title, draft)
     if draft
-      relativePath = path.join('_drafts', fileName + '.markdown')
+      relativePath = path.join(process.jekyllAtom.config.source, '_drafts', fileName + '.markdown')
     else
-      relativePath = path.join('_posts', fileName + '.markdown')
+      relativePath = path.join(process.jekyllAtom.config.source, '_posts', fileName + '.markdown')
     endsWithDirectorySeparator = /\/$/.test(relativePath)
     pathToCreate = atom.project.getDirectories()[0]?.resolve(relativePath)
     return unless pathToCreate

@@ -27,6 +27,7 @@ module.exports =
       process.jekyllAtom.config.includes_dir = './_includes' unless process.jekyllAtom.config.includes_dir
       process.jekyllAtom.config.data_dir = './_data' unless process.jekyllAtom.config.data_dir
       process.jekyllAtom.config.destination = './_site' unless process.jekyllAtom.config.destination
+      process.jekyllAtom.config.source = '.' unless process.jekyllAtom.config.source
 
 
       @Main.Emitter.emit 'config-loaded', process.jekyllAtom.config
