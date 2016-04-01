@@ -61,7 +61,9 @@ module.exports =
   toggleServer: ->
     Server.toggle()
 
-  newPost: ->
+  newPost: (config) ->
+    @createNewPostView() unless @jekyllNewPostView
+
     @jekyllNewPostView.attach()
     @jekyllNewPostView.miniEditor.focus()
 

@@ -15,6 +15,13 @@ class JekyllNewPostView extends View
       @subview 'miniEditor', new TextEditorView(mini: true)
       @label "Draft"
       @input type: 'checkbox', outlet: 'draftCheckbox'
+
+      if process.jekyllAtom.config.atom?.postDirs
+        for dir in process.jekyllAtom.config.atom.postDirs
+          @label dir
+          @input type: 'checkbox', outlet: 'dirCheckbox'+ dir
+
+
       @button outlet: 'createButton', 'Create'
       @div class: 'error-message', outlet: 'errorMessage'
 
@@ -26,6 +33,16 @@ class JekyllNewPostView extends View
     @createButton.on 'click', => @onConfirm(@miniEditor.getText())
 
   attach: ->
+    if atom.config.get('jekyll.draftByDefault')
+      @draftCheckbox.prop('checked', true)
+
+    if process.jekyllAtom.config.atom?.postDirs
+      for dir in process.jekyllAtom.config.atom.postDirs
+        if dir == process.jekyllAtom.config.atom.postDirs[0]
+          @['dirCheckbox' + dir].prop('checked', true)
+        else
+          @['dirCheckbox' + dir].prop('checked', false)
+
     @panel = atom.workspace.addModalPanel(item: this)
 
   destroy: ->
@@ -45,11 +62,19 @@ class JekyllNewPostView extends View
 
   onConfirm: (title) ->
     draft = !!@draftCheckbox.prop('checked')
+
+    postDir = '_posts'
+    if process.jekyllAtom.config.atom?.postDirs
+      for dir in process.jekyllAtom.config.atom.postDirs
+        if !!@['dirCheckbox' + dir].prop('checked')
+          postDir = dir
+
+
     fileName = Utils.generateFileName(title, draft)
     if draft
       relativePath = path.join(process.jekyllAtom.config.source, '_drafts', fileName + '.markdown')
     else
-      relativePath = path.join(process.jekyllAtom.config.source, '_posts', fileName + '.markdown')
+      relativePath = path.join(process.jekyllAtom.config.source, postDir, fileName + '.markdown')
     endsWithDirectorySeparator = /\/$/.test(relativePath)
     pathToCreate = atom.project.getDirectories()[0]?.resolve(relativePath)
     return unless pathToCreate
