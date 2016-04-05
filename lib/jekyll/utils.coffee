@@ -29,8 +29,18 @@ module.exports =
       process.jekyllAtom.config.destination = './_site' unless process.jekyllAtom.config.destination
       process.jekyllAtom.config.source = '.' unless process.jekyllAtom.config.source
 
-      if process.jekyllAtom.config.atom?.postDirs
-        process.jekyllAtom.config.atom.postDirs.unshift '_posts'
+      unless process.jekyllAtom.config.atom
+        process.jekyllAtom.config.atom = {}
+
+      process.jekyllAtom.config.atom.defaultPostDir = '_posts' unless process.jekyllAtom.config.atom.defaultPostDir
+
+      unless process.jekyllAtom.config.atom.postDirs
+        process.jekyllAtom.config.atom.postDirs = []
+
+      process.jekyllAtom.config.atom.postDirs.unshift '_drafts'
+      process.jekyllAtom.config.atom.postDirs.unshift '_posts'
+
+
 
 
       @Main.Emitter.emit 'config-loaded', process.jekyllAtom.config

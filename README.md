@@ -17,8 +17,6 @@ Jekyll-Atom has a few settings that can be set through the [Atom] settings.
    - Change `Build Command` to `/path/to/jekyll, build`.
    - You can get your /path/to/jekyll by using `which jekyll` in your terminal.
 
-`Draft By Default` whether the draft tick box is ticked by default on the new post screen.
-
 ## _config.yml
 
 Jekyll Atom can pickup project specific config from your `_config.yml`.
@@ -34,7 +32,26 @@ atom:
     - --this
   buildEnv:
     JEKYLL_ENV: development
+  postDirs:
+    - _newsletters
+  defaultPostDir: _drafts
 ```
+
+### buildCommand
+
+buildCommand works the same as it does in the Atom settings and is an override for this site.
+
+### buildEnv
+
+The environment used for the build process lets you set any environment variables you desire.
+
+### postDirs
+
+The directories that appear on the new post modal. `_posts` and `_drafts` are added by default.
+
+### defaultPostDir
+
+The default directory to be selected on the new post modal. Defaults to `_posts`.
 
 # Usage
 

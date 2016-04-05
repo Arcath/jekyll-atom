@@ -8,9 +8,6 @@ module.exports =
   Emitter: new Emitter()
 
   config:
-    draftByDefault:
-      type: 'boolean'
-      default: false
     serverPort:
       type: 'integer'
       default: 3000
