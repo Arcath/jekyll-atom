@@ -9,6 +9,8 @@ Utils = require './utils'
 
 module.exports =
 class JekyllNewPostView extends View
+  directoryBoxes: {}
+
   @content: ->
     @div class: 'jekyll-new-post overlay from-top', =>
       @label "Post Title", class: 'icon icon-file-add', outlet: 'promptText'
@@ -31,15 +33,20 @@ class JekyllNewPostView extends View
     @createButton.on 'click', => @onConfirm(@miniEditor.getText())
 
   attach: ->
+
+
     if process.jekyllAtom.config.atom?.postDirs
       for dir in process.jekyllAtom.config.atom.postDirs
         _ = @
 
+        @directoryBoxes[dir] = @['dirCheckbox' + dir]
+
         @['dirCheckbox' + dir].on 'change', ->
           if $(this).prop 'checked'
-              console.dir ['dirCheckbox' + sdir, _['dirCheckbox' + sdir].prop('data-dir'), dir]
-              if sdir != dir
-                _['dirCheckbox' + sdir].prop('checked', false)
+            for sdir in Object.keys(_.directoryBoxes)
+              if sdir != $(this).attr('data-dir')
+                _.directoryBoxes[sdir].prop('checked', false)
+
 
 
         if dir == process.jekyllAtom.config.atom.defaultPostDir
