@@ -25,6 +25,7 @@
     "atom-space-pen-views": "^2.0.5",
     "fs-plus": "^2.0.4",
     "js-yaml": "^3.4.5",
+    "latinize": "^0.4.0",
     "space-pen": "^5",
     "static-server": "2.0.2",
     "temp": "~0.8.3"

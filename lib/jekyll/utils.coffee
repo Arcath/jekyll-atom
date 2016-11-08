@@ -2,6 +2,8 @@ fs = require 'fs'
 path = require 'path'
 yaml = require 'js-yaml'
 
+latinize = require 'latinize'
+
 module.exports =
   Main: null
 
@@ -46,6 +48,7 @@ module.exports =
       @Main.Emitter.emit 'config-loaded', process.jekyllAtom.config
 
   generateFileName: (title) ->
+    title = latinize(title)
     titleString = title.toLowerCase().replace(/[^\w\s]|_/g, "").replace(RegExp(" ", 'g'),"-")
     return @generateDateString() + '-' + titleString
 

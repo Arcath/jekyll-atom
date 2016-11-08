@@ -16,3 +16,8 @@ describe 'Utils', ->
       done()
 
     Utils.getConfigFromSite()
+
+  it 'should take files with none latin characters', ->
+    string = "J'ai aimé allé à l'aéroport"
+    fileName = Utils.generateFileName(string)
+    expect(fileName).toBe(Utils.generateDateString() + "-jai-aime-alle-a-laeroport")
