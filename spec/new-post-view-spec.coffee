@@ -55,7 +55,7 @@ describe 'Jekyll New Post View', ->
         expect(fs.existsSync(pathToCreate)).toBe false
         dialog.miniEditor.setText('Jekyll New Post')
         expect(dialog.miniEditor.getText()).toBe 'Jekyll New Post'
-        atom.commands.dispatch dialog.element, 'core:confirm'
+        dialog.onConfirm('Jekyll New Post')
         expect(fs.existsSync(pathToCreate)).toBe true
 
         if fs.existsSync(pathToCreate)
