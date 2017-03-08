@@ -80,7 +80,7 @@ class JekyllNewPostView extends View
 
 
     fileName = Utils.generateFileName title
-    relativePath = path.join(process.jekyllAtom.config.source, postDir, fileName + '.markdown')
+    relativePath = path.join(process.jekyllAtom.config.source, postDir, fileName + process.jekyllAtom.config.postFileType)
     endsWithDirectorySeparator = /\/$/.test(relativePath)
     pathToCreate = atom.project.getDirectories()[0]?.resolve(relativePath)
     return unless pathToCreate

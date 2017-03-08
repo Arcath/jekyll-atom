@@ -30,6 +30,7 @@ module.exports =
       process.jekyllAtom.config.data_dir = './_data' unless process.jekyllAtom.config.data_dir
       process.jekyllAtom.config.destination = './_site' unless process.jekyllAtom.config.destination
       process.jekyllAtom.config.source = '.' unless process.jekyllAtom.config.source
+      process.jekyllAtom.config.postFileType = '.markdown' unless process.jekyllAtom.config.postFileType
 
       unless process.jekyllAtom.config.atom
         process.jekyllAtom.config.atom = {}
