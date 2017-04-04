@@ -23,7 +23,7 @@ Builder =
 
     @buildProcess.on 'exit', (code, signal) ->
       if code is 0
-        atom.notifications.addSuccess('Jekyll site build complete!')
+        atom.notifications.addSuccess('Jekyll site build complete! View at http://localhost:' + atom.config.get('jekyll.serverPort'))
       else
         atom.notifications.addError('Jekyll site build failed!', {detail: Builder.error})
 
