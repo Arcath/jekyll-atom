@@ -1,5 +1,4 @@
 path = require 'path'
-{$, $$} = require 'atom-space-pen-views'
 fs = require 'fs-plus'
 
 Utils = require '../lib/jekyll/utils'
@@ -33,10 +32,9 @@ describe 'Jekyll New Post View', ->
         activationPromise
 
       runs ->
-        dialog = $(atom.workspace.getModalPanels()[0].getItem()).view()
-        expect(dialog).toExist()
-        expect(dialog.promptText).toExist()
-        expect(dialog.miniEditor).toHaveFocus()
+        elements = document.querySelectorAll('#jekyll-new-post-view')
+
+        expect(elements.length).toBe 1
 
     it 'should allow you to confirm the entry', ->
       atom.commands.dispatch editorView, 'jekyll:new-post'
@@ -45,7 +43,7 @@ describe 'Jekyll New Post View', ->
         activationPromise
 
       runs ->
-        dialog = $(atom.workspace.getModalPanels()[0].getItem()).view()
+        dialog = atom.packages.getActivePackage('jekyll').mainModule.getNewPostView()
         titleName = Utils.generateFileName('Jekyll New Post')
         fileName = path.join('_posts', titleName + '.markdown')
         pathToCreate = atom.project.getDirectories()[0]?.resolve(fileName)
@@ -53,9 +51,9 @@ describe 'Jekyll New Post View', ->
         fs.unlinkSync(pathToCreate) if fs.existsSync(pathToCreate)
 
         expect(fs.existsSync(pathToCreate)).toBe false
-        dialog.miniEditor.setText('Jekyll New Post')
-        expect(dialog.miniEditor.getText()).toBe 'Jekyll New Post'
-        dialog.onConfirm('Jekyll New Post')
+        dialog.refs.input.setText 'Jekyll New Post'
+        expect(dialog.refs.input.getText()).toBe 'Jekyll New Post'
+        dialog.onConfirm()
         expect(fs.existsSync(pathToCreate)).toBe true
 
         if fs.existsSync(pathToCreate)
@@ -75,7 +73,6 @@ describe 'Jekyll New Post View', ->
         activationPromise
 
       runs ->
-        dialog = $(atom.workspace.getModalPanels()[0].getItem()).view()
         expect(Utils.generateDateString(new Date(0))).toBe '1970-01-01'
         expect(Utils.generateFileName('Jekyll New Post')).toBe Utils.generateDateString() + '-jekyll-new-post'
 
@@ -86,15 +83,17 @@ describe 'Jekyll New Post View', ->
         activationPromise
 
       runs ->
-        dialog = $(atom.workspace.getModalPanels()[0].getItem()).view()
+        dialog = atom.packages.getActivePackage('jekyll').mainModule.getNewPostView()
         titleName = Utils.generateFileName('Jekyll New Post')
         fileName = path.join('_posts', titleName + '.markdown')
         pathToCreate = atom.project.getDirectories()[0]?.resolve(fileName)
 
+        dialog.refs.input.setText 'Jekyll New Post'
+
         fs.unlinkSync(pathToCreate) if fs.existsSync(pathToCreate)
 
         expect(fs.existsSync(pathToCreate)).toBe false
-        dialog.onConfirm('Jekyll New Post')
+        dialog.onConfirm()
         expect(fs.existsSync(pathToCreate)).toBe true
 
         if fs.existsSync(pathToCreate)

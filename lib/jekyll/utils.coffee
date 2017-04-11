@@ -50,7 +50,7 @@ module.exports =
 
   generateFileName: (title) ->
     title = latinize(title)
-    titleString = title.toLowerCase().replace(/[^\w\s]|_/g, "").replace(RegExp(" ", 'g'),"-")
+    titleString = encodeURI title.toLowerCase().replace(/[^\w\s\u0080-\uFFFF]|_/g, "").replace(RegExp(" ", 'g'),"-")
     return @generateDateString() + '-' + titleString
 
   generateDateString: (currentTime = new Date(), showTime = false) ->

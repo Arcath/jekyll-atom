@@ -7,6 +7,9 @@ module.exports =
   disposables: []
   Emitter: new Emitter()
 
+  getNewPostView: ->
+    Jekyll.jekyllNewPostView
+
   config:
     serverPort:
       type: 'integer'

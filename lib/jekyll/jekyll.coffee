@@ -65,7 +65,7 @@ module.exports =
     @createNewPostView() unless @jekyllNewPostView
 
     @jekyllNewPostView.attach()
-    @jekyllNewPostView.miniEditor.focus()
+    @jekyllNewPostView.refs.input.element.focus()
 
   buildSite: (config) ->
     Builder.build()
