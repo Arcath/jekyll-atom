@@ -14,7 +14,7 @@ module.exports =
         'core:cancel': => @destroy()
 
     render: ->
-      etch.dom.div {},
+      etch.dom.div {id: 'jekyll-new-post-view'},
         etch.dom.label {}, "Post Title"
         etch.dom.input {className: 'input-text', ref: 'input'}
 
