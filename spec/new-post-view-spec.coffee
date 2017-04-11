@@ -51,8 +51,8 @@ describe 'Jekyll New Post View', ->
         fs.unlinkSync(pathToCreate) if fs.existsSync(pathToCreate)
 
         expect(fs.existsSync(pathToCreate)).toBe false
-        dialog.refs.input.value = 'Jekyll New Post'
-        expect(dialog.refs.input.value).toBe 'Jekyll New Post'
+        dialog.refs.input.setText 'Jekyll New Post'
+        expect(dialog.refs.input.getText()).toBe 'Jekyll New Post'
         dialog.onConfirm()
         expect(fs.existsSync(pathToCreate)).toBe true
 
@@ -88,7 +88,7 @@ describe 'Jekyll New Post View', ->
         fileName = path.join('_posts', titleName + '.markdown')
         pathToCreate = atom.project.getDirectories()[0]?.resolve(fileName)
 
-        dialog.refs.input.value = 'Jekyll New Post'
+        dialog.refs.input.setText 'Jekyll New Post'
 
         fs.unlinkSync(pathToCreate) if fs.existsSync(pathToCreate)
 

@@ -1,3 +1,4 @@
+{TextEditor} = require 'atom'
 etch = require('etch')
 path = require 'path'
 fs = require 'fs-plus'
@@ -16,7 +17,7 @@ module.exports =
     render: ->
       etch.dom.div {id: 'jekyll-new-post-view'},
         etch.dom.label {}, "Post Title"
-        etch.dom.input {className: 'input-text', ref: 'input'}
+        etch.dom TextEditor, {ref: 'input', mini: true}
 
         if process.jekyllAtom.config.atom?.postDirs
           for dir in process.jekyllAtom.config.atom.postDirs
@@ -29,7 +30,7 @@ module.exports =
 
     destroy: ->
       @panel.destroy()
-      @refs.input.value = ""
+      @refs.input.setText ""
       atom.workspace.getActivePane().activate()
 
     attach: ->
@@ -42,7 +43,7 @@ module.exports =
           if @refs['dir[' + dir + ']'].checked
             postDir = dir
 
-      title = @refs.input.value
+      title = @refs.input.getText()
       fileName = Utils.generateFileName title
       relativePath = path.join(process.jekyllAtom.config.source, postDir, fileName + process.jekyllAtom.config.postFileType)
       endsWithDirectorySeparator = /\/$/.test(relativePath)
