@@ -63,6 +63,10 @@ The server runs in the background and can be started/stopped from anywhere using
 
 Whilst running any time you save in Atom your site will be built and available on the port you set in config.
 
+## Auto Building
+
+If you would prefer jekyll-atom to simply build your site on save instead of serving it on static server you can use the command `Jekyll: Toggle Auto Build` to turn building of your site on save on/off.
+
 ## Grammars
 
 Jekyll-Atom adds 3 language grammars to Atom `Jekyll (HTML)`, `Jekyll (XML)` and `Jekyll (JSON)`. All 3 add Liquid and YAML highlighting to their respective format.
