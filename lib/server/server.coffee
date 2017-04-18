@@ -15,7 +15,7 @@ module.exports =
 
 
   start: ->
-    Builder.build()
+    Builder.build(false)
     @server = new StaticServer({
       rootPath: path.join(atom.project.getPaths()[0], process.jekyllAtom.config.destination),
       name: 'jekyll-atom',
@@ -47,4 +47,4 @@ module.exports =
     @disposables.push editor.buffer.emitter.on 'did-save', => @didSave()
 
   didSave: ->
-    Builder.build()
+    Builder.build(true)

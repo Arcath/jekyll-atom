@@ -39,6 +39,7 @@ module.exports =
     atom.commands.add 'atom-workspace', 'jekyll:new-post', => @handleCommand('newPost', true, false)
     atom.commands.add 'atom-workspace', 'jekyll:build-site', => @handleCommand('buildSite', true, false)
     atom.commands.add 'atom-workspace', 'jekyll:publish-draft', => @handleCommand('publishDraft', true, true)
+    atom.commands.add 'atom-workspace', 'jekyll:toggle-auto-build', => @handleCommand('toggleAutoBuild', true, false)
 
     @Emitter.emit 'loaded'
     @Emitter.on 'config-loaded', => @dispose

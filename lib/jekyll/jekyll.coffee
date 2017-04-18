@@ -5,6 +5,7 @@ Utils = require './utils'
 
 JekyllNewPostView = require './new-post-view'
 
+AutoBuild = require '../server/auto-build'
 Builder = require '../server/build'
 Server = require '../server/server'
 
@@ -60,6 +61,9 @@ module.exports =
 
   toggleServer: ->
     Server.toggle()
+
+  toggleAutoBuild: ->
+    AutoBuild.toggle()
 
   newPost: (config) ->
     @createNewPostView() unless @jekyllNewPostView
