@@ -6,6 +6,8 @@ Builder =
   build: (showUrl) ->
     buildCommand = (process.jekyllAtom.config?.atom?.buildCommand || process.jekyllAtom.buildCommand)
 
+    buildCommand.push '--drafts' if atom.config.get('jekyll.buildDrafts')
+
     atom.notifications.addInfo('Starting Jekyll Site Build')
 
     @buildProcess = childProcess.spawn buildCommand[0], buildCommand[1...], {cwd: atom.project.getPaths()[0], env: process.jekyllAtom.config?.atom?.buildEnv}

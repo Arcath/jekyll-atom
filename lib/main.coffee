@@ -19,6 +19,9 @@ module.exports =
       default: ['jekyll', 'build']
       items:
         type: 'string'
+    buildDrafts:
+      type: 'boolean'
+      default: false
 
   activate: ->
     process.jekyllAtom = {

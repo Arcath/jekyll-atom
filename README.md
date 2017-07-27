@@ -17,6 +17,8 @@ Jekyll-Atom has a few settings that can be set through the [Atom] settings.
    - Change `Build Command` to `/path/to/jekyll, build`.
    - You can get your /path/to/jekyll by using `which jekyll` in your terminal.
 
+`Build Drafts` A toggle to choose whether to build (and serve) draft posts.
+
 ## _config.yml
 
 Jekyll Atom can pickup project specific config from your `_config.yml`.
