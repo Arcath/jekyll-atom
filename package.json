@@ -25,7 +25,7 @@
   "dependencies": {
     "etch": "^0.12.2",
     "fs-plus": "^3.0.0",
-    "js-yaml": "^3.8.3",
+    "js-yaml": "^4.1.1",
     "latinize": "^0.4.0",
     "static-server": "^2.0.4",
     "temp": "~0.8.3"
